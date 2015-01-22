@@ -1,2 +1,5 @@
 helicopter-simulation/bin
 helicopter-simulation/lib
+jMonkeyEngine3.jar
+.classpath
+.project
