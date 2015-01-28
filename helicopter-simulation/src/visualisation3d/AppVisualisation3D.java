@@ -10,19 +10,18 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
 
 public class AppVisualisation3D extends SimpleApplication {
+	
+	private VisController visualController;
 
 	@Override
 	public void simpleInitApp() {
+		this.visualController = new VisController();
 		Box b = new Box(256, 0.1f, 256); 
         Geometry geom = new Geometry("Box", b);  
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  
         mat.setColor("Color", ColorRGBA.Blue);   
         geom.setMaterial(mat);                  
         rootNode.attachChild(geom);
-	/*	
-	}
-	
-	public void setCameraAndLight(int camSpeed) {*/
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f));
         rootNode.addLight(sun);
@@ -36,4 +35,8 @@ public class AppVisualisation3D extends SimpleApplication {
         flyCam.setDragToRotate(true);
     }
 	
+	@Override
+    public void simpleUpdate(float tpf) {
+        this.visualController.setEnabled(true);
+    }
 }

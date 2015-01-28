@@ -8,7 +8,10 @@ import java.io.IOException;
 
 import map.Map;
 
+import com.jme3.app.Application;
+import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
+import com.jme3.app.state.AppStateManager;
 import com.jme3.material.Material;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -26,7 +29,15 @@ public class VisController extends AbstractAppState implements ScreenController 
 	private Screen screen;
 	private Material mat;
 	private Node rootNode;
+	private AppVisualisation3D app;
 
+	@Override
+	public void initialize(AppStateManager stateManager, Application app) {
+        super.initialize(stateManager, app);
+        this.app = (AppVisualisation3D) (SimpleApplication) app;
+	}
+	
+	
 	@Override
     public void bind(Nifty nifty, Screen screen) {
         this.nifty = nifty;
@@ -39,12 +50,22 @@ public class VisController extends AbstractAppState implements ScreenController 
 
 	@Override
 	public void onStartScreen() {
+		
 	}
     
-	
+	@Override
+	public void update(float tpf){
+		try {
+			System.out.println("fuck");
+			this.updateMap();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void updateMap() throws IOException{
 		Image img = Toolkit.getDefaultToolkit().createImage(Map.recoverImage());
+		System.out.println("fuck");
 		BufferedImage bimg = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = bimg.createGraphics();
         Texture2D tex = createTexture(bimg, g2d);
@@ -55,7 +76,7 @@ public class VisController extends AbstractAppState implements ScreenController 
     
 	public Texture2D createTexture(BufferedImage img, Graphics2D g) {
         AWTLoader loader = new AWTLoader();
-        Texture2D tex = new Texture2D(loader.load(img, true)); //changes to image parameter in buffer, affect the texture.
+        Texture2D tex = new Texture2D(loader.load(img, true)); 
         tex.setMagFilter(Texture.MagFilter.Nearest);
         tex.setMinFilter(Texture.MinFilter.NearestNearestMipMap);
         return tex;
