@@ -11,16 +11,18 @@ public class Helicopter {
     private double speed;
     private double attitude;
     private Position pos;
+    private double pitch;
 	
     
     public Helicopter(HelicopterType HelicopterType, double altitude,
-			double heading, double speed, double attitude, Position pos) {
+			double heading, double speed, double attitude, Position pos, double pitch) {
 		this.setHelicopterType(HelicopterType);
 		this.setAltitude(altitude);
 		this.setHeading(heading);
 		this.setSpeed(speed);
 		this.setAttitude(attitude);
 		this.setPos(new Position(0,0,0));
+		this.setPitch(pitch);
 	}
 
 
@@ -79,6 +81,16 @@ public class Helicopter {
 
 	public void setPos(Position pos) {
 		this.pos = pos;
+	}
+
+
+	public double getPitch() {
+		return pitch;
+	}
+
+
+	public void setPitch(double pitch) {
+		this.pitch = pitch;
 	}
     
     

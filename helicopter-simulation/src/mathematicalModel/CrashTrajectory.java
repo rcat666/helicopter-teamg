@@ -8,8 +8,10 @@ import model.Position;
 
 public class CrashTrajectory{
 	
-	//creates the trajectory of a crashing helicopter
-	public void calculateTrajectory(Helicopter heli, Trajectory heliTrajectory) throws Exception{
+	
+	/*
+	//creates the trajectory of a crashing helicopter given only two points
+	public void calculateTrajectoryPoints(Helicopter heli, Trajectory heliTrajectory) throws Exception{
 		try {
 			ArrayList<Position> trajectory2=heliTrajectory.getTrajectory();
 			int lSize= trajectory2.size();
@@ -38,6 +40,42 @@ public class CrashTrajectory{
 			System.err.println("At least two positions are needed for this calculation.");
 		}
 	
+	}*/
+	
+	public void calculateTrajectory(Helicopter heli, Trajectory heliTrajectory){
+		
+		//converting degrees into radians
+		double heliPitch=heli.getPitch()* (Math.PI/180);
+		
+		
+		double heliHeading=heli.getHeading();
+		
+		//if heading is bigger than 180 degrees, change it to negative degree values
+		// this is done by subtracting 180 from the heading and using its negative value 
+		if (heliHeading>180) heliHeading=-(heliHeading-180);  
+		//changing degrees to radians
+		heliHeading=heliHeading* (Math.PI/180);
+		
+		//copy Arraylist with positions to manipulate it
+		ArrayList<Position> trajectory= heliTrajectory.getTrajectory();
+		int trajectoryLength = trajectory.size();
+		Position lastPos=trajectory.get(trajectoryLength-1);
+		
+		int time=1;
+		
+		//calculates new positions and adds them to the copy of the arraylist
+		while(lastPos.getAltitude()>=0){
+			trajectory.add(ThrowCalculations.calculateNewPos(time, heli, heliHeading, heliPitch));
+			trajectoryLength++;
+			lastPos=trajectory.get(trajectoryLength-1);
+			time++;
+		}
+		
+		//sets Trajectories arraylist to the new calculated values
+		heliTrajectory.setTrajectory(trajectory);
+
+		
+		
 	}
 	
 }

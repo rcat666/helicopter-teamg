@@ -36,4 +36,10 @@ public class Trajectory {
 		this.traj.add(malfunctionPosition);
 	}
 	
+	//instantiates an instance if there are no two points
+	public Trajectory(Helicopter helicopter){
+		this.heli=helicopter;
+		this.traj=new ArrayList<Position>();
+	}
+	
 }
