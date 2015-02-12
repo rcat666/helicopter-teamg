@@ -2,15 +2,16 @@ package mathematicalModel;
 
 import java.util.ArrayList;
 
+import repository.Trajectory;
 import model.Helicopter;
 import model.Position;
 
 public class CrashTrajectory{
 	
 	//creates the trajectory of a crashing helicopter
-	public void calculateTrajectory(Helicopter heli) throws Exception{
+	public void calculateTrajectory(Helicopter heli, Trajectory heliTrajectory) throws Exception{
 		try {
-			ArrayList<Position> trajectory2=heli.getTrajectory();
+			ArrayList<Position> trajectory2=heliTrajectory.getTrajectory();
 			int lSize= trajectory2.size();
 			Position last=trajectory2.get(lSize-1);
 			Position secondToLast=trajectory2.get(lSize-2);
@@ -29,7 +30,7 @@ public class CrashTrajectory{
 				last=trajectory2.get(lSize-1);
 				time++;
 			}
-			heli.setTrajectory(trajectory2);
+			heliTrajectory.setTrajectory(trajectory2);
 			
 		}
 		// if there are less than two position this should catch the error

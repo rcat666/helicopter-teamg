@@ -15,6 +15,7 @@ public class AppVisualisation3D extends SimpleApplication {
 
 	@Override
 	public void simpleInitApp() {
+		
 		this.visualController = new VisController();
 		Box b = new Box(256, 0.1f, 256); 
         Geometry geom = new Geometry("Box", b);  
@@ -28,8 +29,10 @@ public class AppVisualisation3D extends SimpleApplication {
         AmbientLight al = new AmbientLight();
         al.setColor(ColorRGBA.White.mult(1.3f));
         rootNode.addLight(al);
+        
         cam.setLocation(new Vector3f(256,256, 50));
         cam.lookAt(new Vector3f(0,0,-10), Vector3f.UNIT_Y);
+        
         flyCam.setEnabled(true);
         flyCam.setMoveSpeed(100);
         flyCam.setDragToRotate(true);
