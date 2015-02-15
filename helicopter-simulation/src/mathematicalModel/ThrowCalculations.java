@@ -8,9 +8,9 @@ public class ThrowCalculations {
 	
 	
 	public static Position calculateNewPos(double time, Helicopter heli, double heliHeading, double heliPitch){
-		double x = calculateX(heli.getSpeed(), time, heliHeading) + heli.getPos().getX();
-		double y = calculateY(heli.getSpeed(), time, heliHeading) + heli.getPos().getY();
-		double z = calculateZ(heli.getSpeed(), time, heliPitch) + heli.getAltitude();
+		float x = (float)calculateX(heli.speed, time, heliHeading) + heli.pos.x;
+		float y = (float)calculateY(heli.speed, time, heliHeading) + heli.pos.y;
+		float z = (float) (calculateZ(heli.speed, time, heliPitch) + heli.altitude);
 		Position newPosition= new Position(x,y,z);
 		return newPosition;
 	}

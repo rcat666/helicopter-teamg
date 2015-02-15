@@ -45,10 +45,10 @@ public class CrashTrajectory{
 	public void calculateTrajectory(Helicopter heli, Trajectory heliTrajectory){
 		
 		//converting degrees into radians
-		double heliPitch=heli.getPitch()* (Math.PI/180);
+		double heliPitch=heli.pitch* (Math.PI/180);
 		
 		
-		double heliHeading=heli.getHeading();
+		double heliHeading=heli.heading;
 		
 		//if heading is bigger than 180 degrees, change it to negative degree values
 		// this is done by subtracting 180 from the heading and using its negative value 
@@ -64,7 +64,7 @@ public class CrashTrajectory{
 		int time=1;
 		
 		//calculates new positions and adds them to the copy of the arraylist
-		while(lastPos.getAltitude()>=0){
+		while(lastPos.altitude>=0){
 			trajectory.add(ThrowCalculations.calculateNewPos(time, heli, heliHeading, heliPitch));
 			trajectoryLength++;
 			lastPos=trajectory.get(trajectoryLength-1);

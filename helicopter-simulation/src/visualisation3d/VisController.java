@@ -1,12 +1,10 @@
 package visualisation3d;
 
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import map.Map;
+import map.MapHelper;
 
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture2D;
@@ -15,10 +13,9 @@ import com.jme3.texture.plugins.AWTLoader;
 public class VisController {
 
 	public Texture2D updateMap() throws IOException{
-		Image img = Toolkit.getDefaultToolkit().createImage(Map.recoverImage());
-		BufferedImage bimg = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2d = bimg.createGraphics();
-        Texture2D tex = createTexture(bimg, g2d);
+		BufferedImage googleMapImage = MapHelper.mapImageWithOptions(40.714728, -73.998672, 14);
+        Graphics2D g2d = googleMapImage.createGraphics();
+        Texture2D tex = createTexture(googleMapImage, g2d);
         return tex;
     }
     
