@@ -5,3 +5,5 @@ jMonkeyEngine3.jar
 .classpath
 .project
 *.so
+Tiles
+assets
