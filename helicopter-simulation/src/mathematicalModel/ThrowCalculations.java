@@ -8,9 +8,9 @@ public class ThrowCalculations {
 	
 	
 	public static Position calculateNewPos(double time, Helicopter heli, double heliHeading, double heliPitch){
-		float x = (float)calculateX(heli.speed, time, heliHeading) + heli.pos.getX();
-		float y = (float)calculateY(heli.speed, time, heliHeading) + heli.pos.getY();
-		float z = (float) (calculateZ(heli.speed, time, heliPitch) + heli.altitude);
+		float x = (float) (calculateX(heli.getSpeed(), time, heliHeading) + heli.getPos().getX());
+		float y = (float) (calculateY(heli.getSpeed(), time, heliPitch) + heli.getPos().getY());
+		float z = (float) (calculateZ(heli.getSpeed(), time, heliHeading) + heli.getPos().getZ());
 		Position newPosition= new Position(x,y,z);
 		return newPosition;
 	}
@@ -22,15 +22,15 @@ public class ThrowCalculations {
 		return x;
 	}
 
-	//Calculates the y component of Position at time t
+	//Calculates the y (ALTITUDE) component of Position at time t
 	public static double calculateY(double v, double t, double angle){
-		double y=v*t*Math.sin(angle);
+		double y=v*t*Math.sin(angle)-g/2.0*t*t;
 		return y;
 	}
 
-	//Calculates the z(altitude) component of Position at time t
+	//Calculates the z component of Position at time t
 	public static double calculateZ(double v, double t, double angle){
-		double z=v*t*Math.sin(angle)-g/2.0*t*t;
+		double z=v*t*Math.sin(angle);
 		return z;
 	}
 	

@@ -15,6 +15,10 @@ public class Trajectory {
 	// helicopter instance this trajectory is for
 	private final Helicopter heli;
 
+	public Helicopter getHeli() {
+		return heli;
+	}
+
 	// List of positions that make the trajectory
 	private ArrayList<Position> traj;
 
@@ -39,6 +43,7 @@ public class Trajectory {
 	public Trajectory(Helicopter helicopter) {
 		this.heli = helicopter;
 		this.traj = new ArrayList<Position>();
+		traj.add(heli.getPos());
 	}
 
 }

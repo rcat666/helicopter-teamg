@@ -21,7 +21,7 @@ public class Helicopter {
 		this.heading = heading;
 		this.speed = speed;
 		this.attitude = attitude;
-		this.pos = new Position(0,0,0);
+		this.pos = pos;
 		this.pitch = pitch;
 	}
 

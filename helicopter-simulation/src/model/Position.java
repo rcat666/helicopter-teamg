@@ -10,21 +10,21 @@ public class Position {
 
 	private float x;
 	private float y;
-	private float altitude;
+	private float z;
 
-	public Position(float x, float y, float altitude) {
+	public Position(float x, float y, float z) {
 		this.setX(x);
 		this.setY(y);
-		this.setAltitude(altitude);
+		this.setZ(z);
 	}
 
 
-	public float getAltitude() {
-		return altitude;
+	public float getZ() {
+		return z;
 	}
 
-	public void setAltitude(float altitude) {
-		this.altitude = altitude;
+	public void setZ(float z) {
+		this.z = z;
 	}
 
 	public float getX() {
@@ -44,6 +44,6 @@ public class Position {
 	}
 	
 	public Vector3f toVector3f() {
-		return new Vector3f(this.getX(), this.getY(), this.getAltitude());
+		return new Vector3f(this.getX(), this.getY(), this.getZ());
 	}
 }
