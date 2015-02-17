@@ -8,8 +8,8 @@ public class ThrowCalculations {
 	
 	
 	public static Position calculateNewPos(double time, Helicopter heli, double heliHeading, double heliPitch){
-		float x = (float)calculateX(heli.speed, time, heliHeading) + heli.pos.x;
-		float y = (float)calculateY(heli.speed, time, heliHeading) + heli.pos.y;
+		float x = (float)calculateX(heli.speed, time, heliHeading) + heli.pos.getX();
+		float y = (float)calculateY(heli.speed, time, heliHeading) + heli.pos.getY();
 		float z = (float) (calculateZ(heli.speed, time, heliPitch) + heli.altitude);
 		Position newPosition= new Position(x,y,z);
 		return newPosition;

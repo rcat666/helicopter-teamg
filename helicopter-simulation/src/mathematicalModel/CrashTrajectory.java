@@ -53,6 +53,7 @@ public class CrashTrajectory{
 		//if heading is bigger than 180 degrees, change it to negative degree values
 		// this is done by subtracting 180 from the heading and using its negative value 
 		if (heliHeading>180) heliHeading=-(heliHeading-180);  
+		
 		//changing degrees to radians
 		heliHeading=heliHeading* (Math.PI/180);
 		
@@ -64,7 +65,7 @@ public class CrashTrajectory{
 		int time=1;
 		
 		//calculates new positions and adds them to the copy of the arraylist
-		while(lastPos.altitude>=0){
+		while(lastPos.getAltitude()>=0){
 			trajectory.add(ThrowCalculations.calculateNewPos(time, heli, heliHeading, heliPitch));
 			trajectoryLength++;
 			lastPos=trajectory.get(trajectoryLength-1);
