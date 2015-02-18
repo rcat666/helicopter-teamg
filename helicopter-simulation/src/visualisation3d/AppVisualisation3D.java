@@ -39,7 +39,7 @@ public class AppVisualisation3D extends SimpleApplication {
 		geom.setMaterial(mat);
 		rootNode.attachChild(geom);
 		
-		
+        
 		//Simple sky
 		Texture west = assetManager.loadTexture("Textures/TropicalSunnyDayRight2048.png");
 		Texture east = assetManager.loadTexture("Textures/TropicalSunnyDayLeft2048.png");
@@ -51,13 +51,10 @@ public class AppVisualisation3D extends SimpleApplication {
 		Spatial sky = SkyFactory.createSky(assetManager, west, east, north, south, up, down);
 		rootNode.attachChild(sky);
 		
-		
+        
 		h = new Helicopter3D(assetManager);
 		h.addToRootNode(rootNode);
 
-
-		
-		
 		// Creates a camera in specified location, looking at a specific point,
 		// enables it,
 		// set its moving speed and property to rotate by mouse drag
@@ -70,14 +67,13 @@ public class AppVisualisation3D extends SimpleApplication {
 
 		cam.setLocation(new Vector3f(322.57492f, 283.93198f, -344.94318f));
 		cam.lookAt(new Vector3f(0, 0, -10), Vector3f.UNIT_Y);
-		
 
+        
 		flyCam.setEnabled(true);
 		flyCam.setMoveSpeed(100);
 		flyCam.setDragToRotate(true);
 	}
-	
-	
+    
 	private int arrayPos=0;
 	private ArrayList<Position> ap=new ArrayList<Position>();
 	
@@ -94,14 +90,6 @@ public class AppVisualisation3D extends SimpleApplication {
 		h.updatePosition();
 		
 	}
-
-	
-	
-	
-	
-	
-	
-	
 	
 	public VisController getVisualController() {
 		return new VisController();
