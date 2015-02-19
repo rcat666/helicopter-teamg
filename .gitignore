@@ -6,4 +6,6 @@ jMonkeyEngine3.jar
 .project
 *.so
 Tiles
-assets
+.metadata
+.recommenders
+

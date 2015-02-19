@@ -15,7 +15,7 @@ import com.jme3.scene.shape.Line;
 
 public class AppVisualisation3D extends SimpleApplication {
 
-	private Helicopter3D h;
+	private Helicopter3D heli3Dmodel;
 	private boolean runFirstTime = true;
 
 	@Override
@@ -28,7 +28,8 @@ public class AppVisualisation3D extends SimpleApplication {
 		rootNode.attachChild(new Sky3D().getSky(assetManager));
 
 		//Creates helicopter
-		new Helicopter3D(assetManager).addToRootNode(rootNode);
+		heli3Dmodel=new Helicopter3D(assetManager);
+		heli3Dmodel.addToRootNode(rootNode);
 
 		// Creates a camera in specified location, looking at a specific point,
 		// enables it,
@@ -56,6 +57,7 @@ public class AppVisualisation3D extends SimpleApplication {
 	public void simpleUpdate(float tpf) {
 		if (this.runFirstTime) {
 			ap = Helicopter3D.positions();
+			for (Position posi : ap) System.out.println("X: " + posi.getX()+ " Y: " + posi.getY()+ " Z: " + posi.getZ());
 			runFirstTime = false;
 
 			// sets the first position for line drawing as (0,0,0) and will be
@@ -68,9 +70,9 @@ public class AppVisualisation3D extends SimpleApplication {
 
 		// updates the Helicopter models position with values from trajectory
 		// array
-		h.pos.setX(currentPosition.getX());
-		h.pos.setY(currentPosition.getY());
-		h.pos.setZ(currentPosition.getZ());
+		heli3Dmodel.pos.setX(currentPosition.getX());
+		heli3Dmodel.pos.setY(currentPosition.getY());
+		heli3Dmodel.pos.setZ(currentPosition.getZ());
 
 		// checks if the position has changed before drawing a line and checks
 		// previousPosition is not (0,0,0)
@@ -98,7 +100,7 @@ public class AppVisualisation3D extends SimpleApplication {
 
 		if (arrayPos < ap.size() - 1)
 			arrayPos++;
-		h.updatePosition();
+		heli3Dmodel.updatePosition();
 
 	}
 
