@@ -26,7 +26,7 @@ public class Helicopter3D {
 	 * @param assetManager
 	 */
 	private void createHelicopter3D(AssetManager assetManager) {
-		helicopter3DModel = assetManager.loadModel("Models/helicoptero_1.obj");
+		helicopter3DModel = assetManager.loadModel("Models/helicopter.obj");
 		helicopter3DModel.scale(5);
 		helicopter3DModel.rotate(0, (float) Math.PI, 0); // rotate the model to the correct direction
 
