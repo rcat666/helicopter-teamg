@@ -14,6 +14,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+import com.jme3.scene.shape.Line;
 import com.jme3.texture.Texture;
 import com.jme3.util.SkyFactory;
 
@@ -40,7 +41,7 @@ public class AppVisualisation3D extends SimpleApplication {
 		rootNode.attachChild(geom);
 		
         
-		//Simple sky
+/*		//Simple sky
 		Texture west = assetManager.loadTexture("Textures/TropicalSunnyDayRight2048.png");
 		Texture east = assetManager.loadTexture("Textures/TropicalSunnyDayLeft2048.png");
 		Texture north = assetManager.loadTexture("Textures/TropicalSunnyDayFront2048.png");
@@ -49,7 +50,7 @@ public class AppVisualisation3D extends SimpleApplication {
 		Texture down = assetManager.loadTexture("Textures/TropicalSunnyDayDown2048.png");
 
 		Spatial sky = SkyFactory.createSky(assetManager, west, east, north, south, up, down);
-		rootNode.attachChild(sky);
+		rootNode.attachChild(sky);*/
 		
         
 		h = new Helicopter3D(assetManager);
@@ -76,16 +77,42 @@ public class AppVisualisation3D extends SimpleApplication {
     
 	private int arrayPos=0;
 	private ArrayList<Position> ap=new ArrayList<Position>();
+	private Position previousPosition;
 	
 	@Override
 	public void simpleUpdate(float tpf) {	
 		if(this.runFirstTime){
 			ap = Helicopter3D.positions();
 			runFirstTime = false;
+			
+			//sets the first position for line drawing as (0,0,0) and will be ignored the first time round
+			previousPosition=new Position(0,0,0);
 		}
-		h.pos.setX(ap.get(arrayPos).getX());
-		h.pos.setY(ap.get(arrayPos).getY());
-		h.pos.setZ(ap.get(arrayPos).getZ());
+		
+		//gets current Position from the array of Helicopter
+		Position currentPosition=ap.get(arrayPos);
+		
+		//updates the Helicopter models position with values from trajectory array 
+		h.pos.setX(currentPosition.getX());
+		h.pos.setY(currentPosition.getY());
+		h.pos.setZ(currentPosition.getZ());
+		
+		//checks if the position has changed before drawing a line and checks previousPosition is not (0,0,0)
+		//this check is performed to avoid drawing lines at the end of the program when the Helicopter has already crashed
+		if (!currentPosition.comparePosition(previousPosition) && !previousPosition.comparePosition(new Position(0,0,0))){
+
+			//draws(??) a line between previous and current Position
+			Line pathSegment= new Line(previousPosition.toVector3f(),currentPosition.toVector3f());			//where line starts and ends
+			pathSegment.setLineWidth(3);																	//width of line
+			Geometry segmentGeometry = new Geometry("Bullet", pathSegment);									//Specifying that it is a line
+			Material segmentMaterial =new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");		
+			segmentMaterial.setColor("Color", ColorRGBA.Red);												//set line colour to red	
+			segmentGeometry.setMaterial(segmentMaterial);
+			rootNode.attachChild(segmentGeometry);
+		}
+		//sets the updating previous Position to current Position, so that a new line can be drawn from here.
+		previousPosition=currentPosition;	
+		
 		if (arrayPos < ap.size()-1) arrayPos++;
 		h.updatePosition();
 		

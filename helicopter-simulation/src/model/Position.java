@@ -46,4 +46,9 @@ public class Position {
 	public Vector3f toVector3f() {
 		return new Vector3f(this.getX(), this.getY(), this.getZ());
 	}
+	
+	public boolean comparePosition(Position position2){
+		if (this.getX()==position2.getX() && this.getY()==position2.getY() && this.getZ()==position2.getZ()) return true;
+		return false;
+	}
 }

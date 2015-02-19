@@ -58,11 +58,8 @@ public class Helicopter3D {
 	}
 
 	public static ArrayList<Position> positions(){
-		Trajectory traject = new Trajectory(new Helicopter(null, 200, 0, 50, 0, new Position(0,200,0), 45));
+		Trajectory traject = new Trajectory(new Helicopter(null, 200, 0, 50, 0, new Position(0,200,0), 0));
 		CrashTrajectory.calculateThrowTrajectory(traject);
-		for (Position posi : traject.getTrajectory()){
-			System.out.println("X: " +posi.getX() + " Y: " + posi.getY() + " Z: " +posi.getZ());
-		}
 		return traject.getTrajectory();
 	}
 	
