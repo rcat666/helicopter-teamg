@@ -48,7 +48,6 @@ public class Position {
 	}
 	
 	public boolean comparePosition(Position position2){
-		if (this.getX()==position2.getX() && this.getY()==position2.getY() && this.getZ()==position2.getZ()) return true;
-		return false;
+		return (this.getX()==position2.getX() && this.getY()==position2.getY() && this.getZ()==position2.getZ());
 	}
 }
