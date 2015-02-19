@@ -58,7 +58,7 @@ public class Helicopter3D {
 	}
 
 	public static ArrayList<Position> positions(){
-		Trajectory traject = new Trajectory(new Helicopter(null, 200, 0, 50, 0, new Position(0,200,0), 0));
+		Trajectory traject = new Trajectory(new Helicopter(null, 200, 0, 150, 0, new Position(0,200,0), 45));
 		CrashTrajectory.calculateThrowTrajectory(traject);
 		return traject.getTrajectory();
 	}
