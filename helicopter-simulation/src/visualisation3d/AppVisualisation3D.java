@@ -41,7 +41,7 @@ public class AppVisualisation3D extends SimpleApplication {
 		rootNode.attachChild(geom);
 		
         
-/*		//Simple sky
+		//Simple sky
 		Texture west = assetManager.loadTexture("Textures/TropicalSunnyDayRight2048.png");
 		Texture east = assetManager.loadTexture("Textures/TropicalSunnyDayLeft2048.png");
 		Texture north = assetManager.loadTexture("Textures/TropicalSunnyDayFront2048.png");
@@ -50,7 +50,7 @@ public class AppVisualisation3D extends SimpleApplication {
 		Texture down = assetManager.loadTexture("Textures/TropicalSunnyDayDown2048.png");
 
 		Spatial sky = SkyFactory.createSky(assetManager, west, east, north, south, up, down);
-		rootNode.attachChild(sky);*/
+		rootNode.attachChild(sky);
 		
         
 		h = new Helicopter3D(assetManager);
