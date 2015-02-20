@@ -45,7 +45,7 @@ public class AppVisualisation3D extends SimpleApplication {
 		cam.lookAt(new Vector3f(0, 0, -10), Vector3f.UNIT_Y);
 
 		flyCam.setEnabled(true);
-		flyCam.setMoveSpeed(100);
+		flyCam.setMoveSpeed(300);
 		flyCam.setDragToRotate(true);
 	}
 
