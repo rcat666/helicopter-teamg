@@ -5,11 +5,16 @@ import java.util.ArrayList;
 import repository.Trajectory;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.bounding.BoundingBox;
+import com.jme3.bounding.BoundingVolume;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+
 import mathematicalModel.CrashTrajectory;
+import model.Conversions;
 import model.Helicopter;
 import model.Position;
 
@@ -18,6 +23,8 @@ public class Helicopter3D {
 	public Position pos;
 
 	private Spatial helicopter3DModel;
+	
+	private Helicopter helicopter;
 
 	/**
 	 * This function is responsible for creating the top level 3D object that
@@ -25,9 +32,14 @@ public class Helicopter3D {
 	 * 
 	 * @param assetManager
 	 */
-	private void createHelicopter3D(AssetManager assetManager) {
+	private void createHelicopter3D(AssetManager assetManager, Helicopter helicopter) {
 		helicopter3DModel = assetManager.loadModel("Models/helicopter.obj");
-		helicopter3DModel.scale(5);
+		
+		//get length and height of 3D model (x and y axis)
+		BoundingBox heliBounding=(BoundingBox) helicopter3DModel.getWorldBound();
+		
+		
+		helicopter3DModel.scale((float) getScalingFactor(heliBounding,helicopter));
 		helicopter3DModel.rotate(0, (float) Math.PI, 0); // rotate the model to the correct direction
 
 		Material helicopterMaterial = new Material(assetManager,
@@ -35,6 +47,8 @@ public class Helicopter3D {
 
 		helicopterMaterial.setColor("Color", ColorRGBA.White);
 		this.helicopter3DModel.setMaterial(helicopterMaterial);
+	
+		
 	}
 
 	/**
@@ -42,18 +56,18 @@ public class Helicopter3D {
 	 * representation
 	 * 
 	 */
-	public Helicopter3D(AssetManager assetManager) {
-		this.createHelicopter3D(assetManager);
-		this.pos = new Position(0, 200, 0);
+	public Helicopter3D(AssetManager assetManager, Helicopter helicopter) {
+		this.helicopter=helicopter;
+		this.createHelicopter3D(assetManager, helicopter);
+		this.pos = helicopter.getPos();
 		this.updatePosition();
 
 		// GERMAN TEMPORARY STUFF TO MAKE THINGS WORK
 
 	}
 
-	public static ArrayList<Position> positions() {
-		Trajectory traject = new Trajectory(new Helicopter(null, 200, 0, 50, 0,
-				new Position(0, 200, 0), 45));
+	public ArrayList<Position> positions() {
+		Trajectory traject = new Trajectory(this.helicopter);
 		CrashTrajectory.calculateThrowTrajectory(traject);
 		return traject.getTrajectory();
 	}
@@ -76,6 +90,21 @@ public class Helicopter3D {
 	 */
 	public void updatePosition() {
 		this.helicopter3DModel.setLocalTranslation(this.pos.toVector3f());
+	}
+	
+	//method to get the scaling factor of the helicopter model based on the heights and length of the used model and the real helicopter data
+	public double getScalingFactor(BoundingBox heliBounding,Helicopter helicopter){
+		double modelLength=heliBounding.getXExtent()*2.0;									//getExtent returns distance from center of box and we want the whole length and height
+		double modelHeight=heliBounding.getYExtent()*2.0;
+		
+		//get actual length, height and rotor diameter of helicopter and convert to units
+		double actualLength = Conversions.metersToUnits(helicopter.getHelicopterType().getLength());
+		double actualHeight = Conversions.metersToUnits(helicopter.getHelicopterType().getHeight());
+		
+		double scalingFactorLength = actualLength/modelLength;
+		double scalingFactorHeight = actualHeight/modelHeight;
+		
+		return (scalingFactorLength+scalingFactorHeight)/2.0;				//getting the average scaling factor from the scaling factors for the height and length
 	}
 
 }

@@ -2,6 +2,7 @@ package visualisation3d;
 
 import java.util.ArrayList;
 
+import model.Helicopter;
 import model.Position;
 
 import com.jme3.app.SimpleApplication;
@@ -17,6 +18,7 @@ public class AppVisualisation3D extends SimpleApplication {
 
 	private Helicopter3D heli3Dmodel;
 	private boolean runFirstTime = true;
+	private Helicopter helicopter;
 
 	@Override
 	public void simpleInitApp() {
@@ -28,7 +30,7 @@ public class AppVisualisation3D extends SimpleApplication {
 		rootNode.attachChild(new Sky3D().getSky(assetManager));
 
 		//Creates helicopter
-		heli3Dmodel=new Helicopter3D(assetManager);
+		heli3Dmodel=new Helicopter3D(assetManager, this.helicopter);
 		heli3Dmodel.addToRootNode(rootNode);
 
 		// Creates a camera in specified location, looking at a specific point,
@@ -56,7 +58,7 @@ public class AppVisualisation3D extends SimpleApplication {
 	@Override
 	public void simpleUpdate(float tpf) {
 		if (this.runFirstTime) {
-			ap = Helicopter3D.positions();
+			ap = heli3Dmodel.positions();
 			for (Position posi : ap) System.out.println("X: " + posi.getX()+ " Y: " + posi.getY()+ " Z: " + posi.getZ());
 			runFirstTime = false;
 
@@ -102,6 +104,11 @@ public class AppVisualisation3D extends SimpleApplication {
 			arrayPos++;
 		heli3Dmodel.updatePosition();
 
+	}
+	
+	public AppVisualisation3D(Helicopter helicopter){
+		super();
+		this.helicopter=helicopter;
 	}
 
 	
