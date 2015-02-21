@@ -15,13 +15,13 @@ public class Helicopter {
 	
     
     public Helicopter(HelicopterType HelicopterType, double altitude,
-			double heading, double speed, double attitude, Position pos, double pitch) {
+			double heading, double speed, double attitude, double pitch) {
 		this.helicopterType = HelicopterType;
 		this.altitude = altitude;
 		this.heading = heading;
 		this.speed = speed;
 		this.attitude = attitude;
-		this.pos = pos;
+		this.pos = new Position(0,(float) Conversions.metersToUnits(altitude),0);
 		this.pitch = pitch;
 	}
 
@@ -93,7 +93,10 @@ public class Helicopter {
 		this.pitch = pitch;
 	}
     
-    
+	@Override
+	public String toString(){
+		return helicopterType.toString() + " altitude: " + altitude + " heading: " + heading + " speed: " + speed + " attitude: " + attitude + " pitch: " + pitch;
+	}
 
     
 }

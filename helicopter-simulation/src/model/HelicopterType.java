@@ -81,8 +81,9 @@ public class HelicopterType {
 		this.weight = weight;
 	}
 	
-	
-	
-	
+	@Override
+	public String toString(){
+		return "Helicopter Name: "+name+ " length: "+ length + " rotor length: " + r_length + " rotor diameter: " + r_diam + " heigth: " + height + " weight " + weight;
+	}
 
 }

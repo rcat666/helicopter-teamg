@@ -1,5 +1,6 @@
 package model;
 
+import repository.FileInput;
 import visualisation3d.AppVisualisation3D;
 
 public class Main {
@@ -8,9 +9,10 @@ public class Main {
 	
 
 	public static void main(String[] args) {
-		//initalising example helicopter to make the software run
-		HelicopterType helitype= new HelicopterType("Super Puma AS332 L2", 16.79, 0.0, 16.2, 4.97, 4660.0);
-		Helicopter helicopter=new Helicopter(helitype, 200, 0, 150, 0, new Position(0, 200, 0), 0);
+		
+		Helicopter helicopter =FileInput.helicopterFromFile("./assets/Data/HelicopterDataSheet.csv");	//initiating helicopter with data from a file
+		
+		System.out.println(helicopter.toString());														//printing out information to check filereader
 		
 		app = new AppVisualisation3D(helicopter);
 		app.start();
