@@ -10,7 +10,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		Helicopter helicopter =FileInput.helicopterFromFile("./assets/Data/HelicopterDataSheet.csv");	//initiating helicopter with data from a file
+		Helicopter helicopter = FileInput.helicopterFromFile("./assets/Data/HelicopterDataSheet.csv");	//initiating helicopter with data from a file
 		
 		System.out.println(helicopter.toString());														//printing out information to check filereader
 		

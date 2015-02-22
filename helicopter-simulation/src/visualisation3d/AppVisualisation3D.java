@@ -6,25 +6,32 @@ import model.Helicopter;
 import model.Position;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.input.KeyInput;
+import com.jme3.input.controls.KeyTrigger;
+import com.jme3.input.controls.ActionListener;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
-import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.shape.Line;
+//import com.jme3.scene.Node;
 
 public class AppVisualisation3D extends SimpleApplication {
 
 	private Helicopter3D heli3Dmodel;
 	private boolean runFirstTime = true;
+	//private boolean mapAttached = true;
+	//private boolean pathAttached = true;
 	private Helicopter helicopter;
-
+	private Geometry map;
+	private Geometry segmentGeometry;
+	//private Node path;
 	@Override
 	public void simpleInitApp() {
 
 		// Attach map tile 
-		rootNode.attachChild(new Tile3D().getTile3D(assetManager));
+		map = new Tile3D().getTile3D(assetManager);
+		rootNode.attachChild(map);
 
 		// Simple sky
 		rootNode.attachChild(new Sky3D().getSky(assetManager));
@@ -49,8 +56,28 @@ public class AppVisualisation3D extends SimpleApplication {
 		flyCam.setEnabled(true);
 		flyCam.setMoveSpeed(300);
 		flyCam.setDragToRotate(true);
+		
+		initKeys();
 	}
 
+	private void initKeys() {
+		inputManager.addMapping("Map", new KeyTrigger(KeyInput.KEY_M));
+	    inputManager.addMapping("Path", new KeyTrigger(KeyInput.KEY_P));
+	    
+	    inputManager.addListener(actionListener, "Map", "Path");
+	}
+
+	private ActionListener actionListener = new ActionListener() { 
+		public void onAction(String name, boolean keyPressed, float tpf) {
+			if (name.equals("Map") && !keyPressed) {
+				rootNode.detachChild(map); 
+			}
+			if (name.equals("Path") && !keyPressed) {
+				rootNode.detachChild(segmentGeometry);
+			}
+		}
+	};
+	
 	private int arrayPos = 0;
 	private ArrayList<Position> ap = new ArrayList<Position>();
 	private Position previousPosition;
@@ -75,33 +102,14 @@ public class AppVisualisation3D extends SimpleApplication {
 		heli3Dmodel.pos.setX(currentPosition.getX());
 		heli3Dmodel.pos.setY(currentPosition.getY());
 		heli3Dmodel.pos.setZ(currentPosition.getZ());
-
-		// checks if the position has changed before drawing a line and checks
-		// previousPosition is not (0,0,0)
-		// this check is performed to avoid drawing lines at the end of the
-		// program when the Helicopter has already crashed
-		// TODO: Replace this code with call to Path3D.
-		if (!currentPosition.comparePosition(previousPosition)
-				&& !previousPosition.comparePosition(new Position(0, 0, 0))) {
-
-			// draws(??) a line between previous and current Position
-			Line pathSegment = new Line(previousPosition.toVector3f(),
-					currentPosition.toVector3f()); // where line starts and ends
-			pathSegment.setLineWidth(3); // width of line
-			Geometry segmentGeometry = new Geometry("Bullet", pathSegment); // Specifying that it is a line
-			Material segmentMaterial = new Material(assetManager,
-					"Common/MatDefs/Misc/Unshaded.j3md");
-			segmentMaterial.setColor("Color", ColorRGBA.Red); // set line colour
-																// to red
-			segmentGeometry.setMaterial(segmentMaterial);
-			rootNode.attachChild(segmentGeometry);
-		}
-		// sets the updating previous Position to current Position, so that a
-		// new line can be drawn from here.
+		
+		
+		segmentGeometry = new Path3D().getPath3D(currentPosition, previousPosition, assetManager);
+		if (segmentGeometry != null) rootNode.attachChild(segmentGeometry);
+		//path.attachChild(segmentGeometry);
 		previousPosition = currentPosition;
 
-		if (arrayPos < ap.size() - 1)
-			arrayPos++;
+		if (arrayPos < ap.size() - 1) arrayPos++;
 		heli3Dmodel.updatePosition();
 
 	}

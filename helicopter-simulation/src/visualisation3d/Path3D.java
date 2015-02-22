@@ -12,7 +12,7 @@ public class Path3D {
 
 
 	private boolean isSamePosition(Position currentPosition, Position previousPosition){
-		return currentPosition.comparePosition(previousPosition) && previousPosition.comparePosition(new Position(0, 0, 0));
+		return currentPosition.comparePosition(previousPosition) || previousPosition.comparePosition(new Position(0, 0, 0));
 	}
 
 	private Geometry createPath3D(Position currentPosition, Position previousPosition, AssetManager assetManager){
@@ -25,7 +25,7 @@ public class Path3D {
 			segmentGeometry = new Geometry("Bullet", pathSegment); // Specifying that it is a line
 			segmentMaterial = new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
 			segmentMaterial.setColor("Color", ColorRGBA.Red);
-			segmentGeometry.setMaterial(segmentMaterial);	
+			segmentGeometry.setMaterial(segmentMaterial);
 		}
 		return segmentGeometry;
 	}

@@ -59,9 +59,6 @@ public class Helicopter3D {
 		this.createHelicopter3D(assetManager, helicopter);
 		this.pos = helicopter.getPos();
 		this.updatePosition();
-
-		// GERMAN TEMPORARY STUFF TO MAKE THINGS WORK
-
 	}
 
 	public ArrayList<Position> positions() {
