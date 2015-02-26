@@ -51,9 +51,19 @@ public class Conversions {
 	}
 
 	
-	public static double metersPerSquareSecondToUnitsPerSquareSeconds(
-			double acceleration) {
+	public static double metersPerSquareSecondToUnitsPerSquareSeconds(double acceleration) {
 
 		return acceleration / 10;
+	}
+	
+	//converting angles from degree into radians
+	//this includes converting angles bigger than 180° into the respective minus angle
+	public static double degreeToRadians(double angleToConvert){
+		double angle;
+		//check if angle is larger than 180° and change to its counterpart if it is
+		//it also switches the negative value with the positive value to account for physical models angle going around counter-clockwise and reality clockwise
+		if(angleToConvert>180) angle=(angleToConvert-180);
+		else angle=-angleToConvert;
+		return angle* (Math.PI / 180);
 	}
 }

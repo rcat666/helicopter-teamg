@@ -12,7 +12,7 @@ public class Path3D {
 
 
 	private boolean isSamePosition(Position currentPosition, Position previousPosition){
-		return currentPosition.comparePosition(previousPosition) || previousPosition.comparePosition(new Position(0, 0, 0));
+		return currentPosition.comparePosition(previousPosition);
 	}
 
 	private Geometry createPath3D(Position currentPosition, Position previousPosition, AssetManager assetManager){

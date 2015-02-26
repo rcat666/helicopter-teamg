@@ -38,7 +38,7 @@ public class Helicopter3D {
 		
 		
 		helicopter3DModel.scale((float) getScalingFactor(heliBounding,helicopter));
-		helicopter3DModel.rotate(0, (float) Math.PI, 0); // rotate the model to the correct direction
+		helicopter3DModel.rotate(0, (float) Conversions.degreeToRadians(helicopter.getHeading()), 0); // rotate the model to the correct direction
 
 		Material helicopterMaterial = new Material(assetManager,
 				"Common/MatDefs/Misc/Unshaded.j3md");
