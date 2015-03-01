@@ -14,7 +14,7 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
-//import com.jme3.scene.Node;
+import com.jme3.scene.Node;
 
 public class AppVisualisation3D extends SimpleApplication {
 
@@ -25,13 +25,18 @@ public class AppVisualisation3D extends SimpleApplication {
 	private Helicopter helicopter;
 	private Geometry map;
 	private Geometry segmentGeometry;
-	//private Node path;
+	private Node path = new Node();
+	
 	@Override
 	public void simpleInitApp() {
 
 		// Attach map tile 
 		map = new Tile3D().getTile3D(assetManager);
 		rootNode.attachChild(map);
+		
+		// Attach path node to enable controls
+		rootNode.attachChild(path);
+
 
 		// Simple sky
 		rootNode.attachChild(new Sky3D().getSky(assetManager));
@@ -62,18 +67,19 @@ public class AppVisualisation3D extends SimpleApplication {
 
 	private void initKeys() {
 		inputManager.addMapping("Map", new KeyTrigger(KeyInput.KEY_M));
-	    inputManager.addMapping("Path", new KeyTrigger(KeyInput.KEY_P));
-	    
+	    inputManager.addMapping("Path", new KeyTrigger(KeyInput.KEY_P));    
 	    inputManager.addListener(actionListener, "Map", "Path");
 	}
 
 	private ActionListener actionListener = new ActionListener() { 
 		public void onAction(String name, boolean keyPressed, float tpf) {
 			if (name.equals("Map") && !keyPressed) {
-				rootNode.detachChild(map); 
+				if (rootNode.hasChild(map)) rootNode.detachChild(map);
+				else rootNode.attachChild(map);
 			}
 			if (name.equals("Path") && !keyPressed) {
-				rootNode.detachChild(segmentGeometry);
+				if (rootNode.hasChild(path)) rootNode.detachChild(path);
+				else rootNode.attachChild(path);
 			}
 		}
 	};
@@ -86,7 +92,7 @@ public class AppVisualisation3D extends SimpleApplication {
 	public void simpleUpdate(float tpf) {
 		if (this.runFirstTime) {
 			ap = heli3Dmodel.positions();
-			for (Position posi : ap) System.out.println("X: " + posi.getX()+ " Y: " + posi.getY()+ " Z: " + posi.getZ());
+			//for (Position posi : ap) System.out.println("X: " + posi.getX()+ " Y: " + posi.getY()+ " Z: " + posi.getZ());
 			runFirstTime = false;
 
 			// sets the first position for line drawing as (0,0,0) and will be
@@ -97,18 +103,18 @@ public class AppVisualisation3D extends SimpleApplication {
 		// gets current Position from the array of Helicopter
 		Position currentPosition = ap.get(arrayPos);
 
-		// updates the Helicopter models position with values from trajectory
+		// sets the Helicopter models position with values from trajectory
 		// array
 		heli3Dmodel.pos.setX(currentPosition.getX());
 		heli3Dmodel.pos.setY(currentPosition.getY());
 		heli3Dmodel.pos.setZ(currentPosition.getZ());
 		
-		
+		// creates 3dpath and attaches it to path node that can be toggled
 		segmentGeometry = new Path3D().getPath3D(currentPosition, previousPosition, assetManager);
-		if (segmentGeometry != null) rootNode.attachChild(segmentGeometry);
-		//path.attachChild(segmentGeometry);
+		if (segmentGeometry != null) path.attachChild(segmentGeometry);
 		previousPosition = currentPosition;
-
+		
+		// update the position of the helicopter and get next position
 		if (arrayPos < ap.size() - 1) arrayPos++;
 		heli3Dmodel.updatePosition();
 
