@@ -95,9 +95,9 @@ public class AppVisualisation3D extends SimpleApplication {
 			//for (Position posi : ap) System.out.println("X: " + posi.getX()+ " Y: " + posi.getY()+ " Z: " + posi.getZ());
 			runFirstTime = false;
 
-			// sets the first position for line drawing as (0,0,0) and will be
+			// sets the first position for line drawing as the first position specified in arrayPos
 			// ignored the first time round
-			previousPosition = new Position(0, 0, 0);
+			previousPosition = ap.get(arrayPos);
 		}
 
 		// gets current Position from the array of Helicopter
