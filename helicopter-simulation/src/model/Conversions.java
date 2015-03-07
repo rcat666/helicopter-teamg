@@ -11,7 +11,7 @@ public class Conversions {
 
 	// defining the conversion rate of meters to units used in calculations as 1
 	// unit are 10 m
-	private final static double metersToUnit = 10;
+	public final static double metersToUnit = 4.42188;
 
 	
 	public static double mphToUnitsPSecond(double givenSpeed) {

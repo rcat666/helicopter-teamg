@@ -6,6 +6,7 @@ import model.Helicopter;
 import model.Position;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.input.FlyByCamera;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.ActionListener;
@@ -13,19 +14,22 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 
 public class AppVisualisation3D extends SimpleApplication {
 
 	private Helicopter3D heli3Dmodel;
+	private int exec = 0;
 	private boolean runFirstTime = true;
-	//private boolean mapAttached = true;
-	//private boolean pathAttached = true;
+	private boolean isCrashed = false;
 	private Helicopter helicopter;
 	private Geometry map;
+	//private Camera cam;
 	private Geometry segmentGeometry;
 	private Node path = new Node();
+	private Node area = new Node();
 	
 	@Override
 	public void simpleInitApp() {
@@ -37,6 +41,8 @@ public class AppVisualisation3D extends SimpleApplication {
 		// Attach path node to enable controls
 		rootNode.attachChild(path);
 
+		// Attach node for area affected
+		rootNode.attachChild(area);
 
 		// Simple sky
 		rootNode.attachChild(new Sky3D().getSky(assetManager));
@@ -44,7 +50,7 @@ public class AppVisualisation3D extends SimpleApplication {
 		//Creates helicopter
 		heli3Dmodel=new Helicopter3D(assetManager, this.helicopter);
 		heli3Dmodel.addToRootNode(rootNode);
-
+		
 		// Creates a camera in specified location, looking at a specific point,
 		// enables it,
 		// set its moving speed and property to rotate by mouse drag
@@ -53,22 +59,21 @@ public class AppVisualisation3D extends SimpleApplication {
 		rootNode.addLight(sun);
 		AmbientLight al = new AmbientLight();
 		al.setColor(ColorRGBA.White.mult(1.3f));
-		rootNode.addLight(al);
-
+		rootNode.addLight(al);		
 		cam.setLocation(new Vector3f(322.57492f, 283.93198f, -344.94318f));
 		cam.lookAt(new Vector3f(0, 0, -10), Vector3f.UNIT_Y);
-
 		flyCam.setEnabled(true);
 		flyCam.setMoveSpeed(300);
 		flyCam.setDragToRotate(true);
-		
+				
 		initKeys();
 	}
 
 	private void initKeys() {
 		inputManager.addMapping("Map", new KeyTrigger(KeyInput.KEY_M));
-	    inputManager.addMapping("Path", new KeyTrigger(KeyInput.KEY_P));    
-	    inputManager.addListener(actionListener, "Map", "Path");
+	    inputManager.addMapping("Path", new KeyTrigger(KeyInput.KEY_P));
+	    inputManager.addMapping("Area", new KeyTrigger(KeyInput.KEY_O));
+	    inputManager.addListener(actionListener, "Map", "Path", "Area");
 	}
 
 	private ActionListener actionListener = new ActionListener() { 
@@ -81,6 +86,10 @@ public class AppVisualisation3D extends SimpleApplication {
 				if (rootNode.hasChild(path)) rootNode.detachChild(path);
 				else rootNode.attachChild(path);
 			}
+			if (name.equals("Area") && !keyPressed) {
+				if (rootNode.hasChild(area)) rootNode.detachChild(area);
+				else rootNode.attachChild(area);
+			}
 		}
 	};
 	
@@ -92,7 +101,7 @@ public class AppVisualisation3D extends SimpleApplication {
 	public void simpleUpdate(float tpf) {
 		if (this.runFirstTime) {
 			ap = heli3Dmodel.positions();
-			//for (Position posi : ap) System.out.println("X: " + posi.getX()+ " Y: " + posi.getY()+ " Z: " + posi.getZ());
+			//for (Position posi : ap) System.out.println("X: " + posi.getX() + " Y: " + posi.getY()+ " Z: " + posi.getZ());
 			runFirstTime = false;
 
 			// sets the first position for line drawing as the first position specified in arrayPos
@@ -115,9 +124,15 @@ public class AppVisualisation3D extends SimpleApplication {
 		previousPosition = currentPosition;
 		
 		// update the position of the helicopter and get next position
-		if (arrayPos < ap.size() - 1) arrayPos++;
+		if (arrayPos < ap.size() - 1) arrayPos++; 
+		else if (!this.isCrashed && this.exec == 0) {this.isCrashed = true; this.exec++;}
 		heli3Dmodel.updatePosition();
-
+		
+		// creates the affected area
+		if (this.isCrashed) {
+			area.attachChild(new AffectedArea3D().getAffectedArea(assetManager, currentPosition));
+			this.isCrashed = false;
+		}
 	}
 	
 	public AppVisualisation3D(Helicopter helicopter){
