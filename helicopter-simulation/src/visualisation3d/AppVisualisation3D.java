@@ -65,7 +65,12 @@ public class AppVisualisation3D extends SimpleApplication {
 		flyCam.setEnabled(true);
 		flyCam.setMoveSpeed(300);
 		flyCam.setDragToRotate(true);
-				
+		
+		
+		setDisplayFps(false);
+		setDisplayStatView(false);
+		
+		
 		initKeys();
 	}
 
