@@ -20,6 +20,7 @@ public class AffectedArea3D {
 		material.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
 		geometry.setQueueBucket(Bucket.Transparent); // jmonkey methods to enable transparency 
 		geometry.setMaterial(material);
+		
 		// moves the shape to the position of the helicopter and y variables is set to 0.1 to avoid blurring while moving.
 		geometry.setLocalTranslation(new Vector3f(currentPosition.getX(), 0.1f, currentPosition.getZ()));
 		return geometry;

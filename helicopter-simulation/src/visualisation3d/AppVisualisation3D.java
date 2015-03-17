@@ -6,7 +6,6 @@ import model.Helicopter;
 import model.Position;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.input.FlyByCamera;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.ActionListener;
@@ -14,7 +13,6 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
-import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 
@@ -26,11 +24,9 @@ public class AppVisualisation3D extends SimpleApplication {
 	private boolean isCrashed = false;
 	private Helicopter helicopter;
 	private Geometry map;
-	//private Camera cam;
 	private Geometry segmentGeometry;
 	private Node path = new Node();
 	private Node area = new Node();
-	
 	@Override
 	public void simpleInitApp() {
 
@@ -47,9 +43,13 @@ public class AppVisualisation3D extends SimpleApplication {
 		// Simple sky
 		rootNode.attachChild(new Sky3D().getSky(assetManager));
 
-		//Creates helicopter
+		// Creates helicopter
 		heli3Dmodel=new Helicopter3D(assetManager, this.helicopter);
 		heli3Dmodel.addToRootNode(rootNode);
+		
+		// Attach HUD
+		guiNode.attachChild(new HUD().createHUD(assetManager, guiFont, settings));
+		rootNode.attachChild(guiNode);
 		
 		// Creates a camera in specified location, looking at a specific point,
 		// enables it,
@@ -101,6 +101,7 @@ public class AppVisualisation3D extends SimpleApplication {
 	private int arrayPos = 0;
 	private ArrayList<Position> ap = new ArrayList<Position>();
 	private Position previousPosition;
+	
 
 	@Override
 	public void simpleUpdate(float tpf) {
@@ -123,7 +124,7 @@ public class AppVisualisation3D extends SimpleApplication {
 		heli3Dmodel.pos.setY(currentPosition.getY());
 		heli3Dmodel.pos.setZ(currentPosition.getZ());
 		
-		// creates 3dpath and attaches it to path node that can be toggled
+		// creates 3dpath and attaches it to path node so that can be toggled
 		segmentGeometry = new Path3D().getPath3D(currentPosition, previousPosition, assetManager);
 		if (segmentGeometry != null) path.attachChild(segmentGeometry);
 		previousPosition = currentPosition;
@@ -132,7 +133,6 @@ public class AppVisualisation3D extends SimpleApplication {
 		if (arrayPos < ap.size() - 1) arrayPos++; 
 		else if (!this.isCrashed && this.exec == 0) {this.isCrashed = true; this.exec++;}
 		heli3Dmodel.updatePosition();
-		
 		// creates the affected area
 		if (this.isCrashed) {
 			area.attachChild(new AffectedArea3D().getAffectedArea(assetManager, currentPosition));
