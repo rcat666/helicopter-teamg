@@ -6,13 +6,17 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import model.Conversions;
+
 
 public class MapHelper {
 	
-	public static int mapSize = 640;
+	public static int mapSize = 1024;
+	private static String apikey= "Fmjtd%7Cluu82lurnq%2Cax%3Do5-94850w";
 	
-	public static BufferedImage mapImageWithOptions(double lat, double longitude, int zoom) throws IOException {
-		String mapURLString = "https://maps.googleapis.com/maps/api/staticmap?center=" + Double.toString(lat) + "," + Double.toString(longitude) + "&zoom=" + Integer.toString(zoom) + "&size=" + mapSize + "x" + mapSize + "&scale=2&maptype=satellite&format=jpg";
+	public static BufferedImage mapImageWithOptions(double lat, double longitude, String mapType) throws IOException {
+		double[] boundary = Conversions.getBoundaries(lat, longitude, Conversions.distance, Conversions.distance);
+		String mapURLString =  "http://open.mapquestapi.com/staticmap/v4/getmap?key=" + apikey + "&bestfit=" + boundary[0] + "," + boundary[1] + "," + boundary[2]  + "," + boundary[3] + "&size=" + mapSize + "," + mapSize + "&type=" + mapType + "&imagetype=jpeg&";
 		URL mapURL = new URL(mapURLString);
 		BufferedImage mapImg = ImageIO.read(mapURL);
 		return mapImg;

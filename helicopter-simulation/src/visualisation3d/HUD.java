@@ -42,7 +42,7 @@ public class HUD {
 		BitmapText hudText = new BitmapText(guiFont, false);          
 		hudText.setSize(guiFont.getCharSet().getRenderedSize());      
 		hudText.setColor(ColorRGBA.White);                            
-		hudText.setText("Speed: " + " kph");             
+		hudText.setText("Speed: " + " mph");             
 		hudText.setLocalTranslation(0, settings.getHeight(), 0); // position
 		hud.attachChild(hudText);
 		

@@ -51,4 +51,14 @@ public class ThrowCalculations {
 		
 		return new Position(x,0,z);
 	}
+	
+	//return speed of helicopter at particular time
+	public static double calculateSpeed(double time, double heliPitch, double speed){
+
+		double speed0=Conversions.mphToUnitsPSecond(speed);
+		double gConverted = Conversions.metersPerSquareSecondToUnitsPerSquareSeconds(g);
+		double speedCalculator = Math.sqrt(speed0*speed0 + gConverted*gConverted *time*time -2*speed0*gConverted*time*Math.sin(heliPitch));
+
+		return speedCalculator;
+		}
 }

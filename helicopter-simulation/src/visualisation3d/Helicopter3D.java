@@ -2,7 +2,8 @@ package visualisation3d;
 
 import java.util.ArrayList;
 
-import repository.Trajectory;
+import repository.HeliStats;
+import repository.TrajectoryInformation;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.bounding.BoundingBox;
@@ -61,10 +62,10 @@ public class Helicopter3D {
 		this.updatePosition();
 	}
 
-	public ArrayList<Position> positions() {
-		Trajectory traject = new Trajectory(this.helicopter);
+	public ArrayList<HeliStats> stats() {
+		TrajectoryInformation traject = new TrajectoryInformation(this.helicopter);
 		CrashTrajectory.calculateThrowTrajectory(traject);
-		return traject.getTrajectory();
+		return traject.getStats();
 	}
 
 	/**

@@ -2,7 +2,10 @@ package visualisation3d;
 
 import java.util.ArrayList;
 
+import repository.HeliStats;
+import model.Conversions;
 import model.Helicopter;
+import model.Population;
 import model.Position;
 
 import com.jme3.app.SimpleApplication;
@@ -27,11 +30,15 @@ public class AppVisualisation3D extends SimpleApplication {
 	private Geometry segmentGeometry;
 	private Node path = new Node();
 	private Node area = new Node();
+	
+	private ArrayList<HeliStats> statsArray = new ArrayList<HeliStats>();
+	double[] coordinates;
+	
 	@Override
 	public void simpleInitApp() {
 
 		// Attach map tile 
-		map = new Tile3D().getTile3D(assetManager);
+		map = new Tile3D().getTile3D(assetManager, this.coordinates);
 		rootNode.attachChild(map);
 		
 		// Attach path node to enable controls
@@ -46,10 +53,16 @@ public class AppVisualisation3D extends SimpleApplication {
 		// Creates helicopter
 		heli3Dmodel=new Helicopter3D(assetManager, this.helicopter);
 		heli3Dmodel.addToRootNode(rootNode);
+		statsArray = heli3Dmodel.stats();
 		
 		// Attach HUD
 		guiNode.attachChild(new HUD().createHUD(assetManager, guiFont, settings));
 		rootNode.attachChild(guiNode);
+		
+		//calculating people affected and printing it out in the console
+		//MOST THINGS ARE CURRENTLY HARDCODED!!
+		double peopleAffected = Population.calculatePeopleAffected(statsArray.get(0).getPosition(), statsArray.get(0).getPosition(), this.coordinates[0], this.coordinates[1], 50*Conversions.metersToUnit, 50*Conversions.metersToUnit);
+		System.out.printf("Total People affected %.2f\n", peopleAffected);
 		
 		// Creates a camera in specified location, looking at a specific point,
 		// enables it,
@@ -99,24 +112,22 @@ public class AppVisualisation3D extends SimpleApplication {
 	};
 	
 	private int arrayPos = 0;
-	private ArrayList<Position> ap = new ArrayList<Position>();
 	private Position previousPosition;
 	
 
 	@Override
 	public void simpleUpdate(float tpf) {
 		if (this.runFirstTime) {
-			ap = heli3Dmodel.positions();
 			//for (Position posi : ap) System.out.println("X: " + posi.getX() + " Y: " + posi.getY()+ " Z: " + posi.getZ());
 			runFirstTime = false;
 
 			// sets the first position for line drawing as the first position specified in arrayPos
 			// ignored the first time round
-			previousPosition = ap.get(arrayPos);
+			previousPosition = statsArray.get(arrayPos).getPosition();
 		}
 
 		// gets current Position from the array of Helicopter
-		Position currentPosition = ap.get(arrayPos);
+		Position currentPosition = statsArray.get(arrayPos).getPosition();
 
 		// sets the Helicopter models position with values from trajectory
 		// array
@@ -130,7 +141,7 @@ public class AppVisualisation3D extends SimpleApplication {
 		previousPosition = currentPosition;
 		
 		// update the position of the helicopter and get next position
-		if (arrayPos < ap.size() - 1) arrayPos++; 
+		if (arrayPos < statsArray.size() - 1) arrayPos++; 
 		else if (!this.isCrashed && this.exec == 0) {this.isCrashed = true; this.exec++;}
 		heli3Dmodel.updatePosition();
 		// creates the affected area
@@ -140,9 +151,10 @@ public class AppVisualisation3D extends SimpleApplication {
 		}
 	}
 	
-	public AppVisualisation3D(Helicopter helicopter){
+	public AppVisualisation3D(Helicopter helicopter, double[] coordinates){
 		super();
 		this.helicopter=helicopter;
+		this.coordinates=coordinates;
 	}
 
 	

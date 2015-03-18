@@ -2,7 +2,8 @@ package mathematicalModel;
 
 import java.util.ArrayList;
 
-import repository.Trajectory;
+import repository.HeliStats;
+import repository.TrajectoryInformation;
 import model.Conversions;
 import model.Helicopter;
 import model.Position;
@@ -10,7 +11,7 @@ import model.Position;
 public class CrashTrajectory {
 
 
-	public static void calculateThrowTrajectory(Trajectory traj) {
+	public static void calculateThrowTrajectory(TrajectoryInformation traj) {
 		
 		Helicopter helicopter=traj.getHeli();
 		
@@ -25,18 +26,20 @@ public class CrashTrajectory {
 		heliHeading = Conversions.degreeToRadians(heliHeading);
 
 		// copy Arraylist with positions to manipulate it
-		ArrayList<Position> trajectory = traj.getTrajectory();
+		ArrayList<HeliStats> trajectory = traj.getStats();
 		int trajectoryLength = trajectory.size();
-		Position lastPos = trajectory.get(trajectoryLength - 1);
-
+		HeliStats lastStats = trajectory.get(trajectoryLength - 1);
+		Position lastPos = lastStats.getPosition();
+		
 		double time = 0.01;
 
 		// calculates new positions and adds them to the copy of the arraylist
 		while (lastPos.getY() >= 0) {
-			trajectory.add(ThrowCalculations.calculateNewPos(time, helicopter,
-					heliHeading, heliPitch));
+			trajectory.add(new HeliStats(ThrowCalculations.calculateNewPos(time, helicopter,
+					heliHeading, heliPitch), Conversions.unitsPSecondToMph(ThrowCalculations.calculateSpeed(time, heliPitch, Conversions.mphToUnitsPSecond((helicopter.getSpeed()))))));
 			trajectoryLength++;
-			lastPos = trajectory.get(trajectoryLength - 1);
+			lastStats = trajectory.get(trajectoryLength - 1);
+			lastPos = lastStats.getPosition();
 			time += 0.01;
 		}
 		
@@ -47,7 +50,7 @@ public class CrashTrajectory {
 		//trajectory.add(ThrowCalculations.calculateFinalPos(Conversions.mphToUnitsPSecond(helicopter.getSpeed()),heliPitch,heliHeading));
 		
 		// sets Trajectories arraylist to the new calculated values
-		traj.setTrajectory(trajectory);
+		traj.setStats(trajectory);
 
 	}
 

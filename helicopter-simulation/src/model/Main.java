@@ -1,5 +1,7 @@
 package model;
 
+import com.jme3.system.AppSettings;
+
 import repository.FileInput;
 import visualisation3d.AppVisualisation3D;
 
@@ -14,7 +16,14 @@ public class Main {
 		
 		System.out.println(helicopter.toString());														//printing out information to check filereader
 		
-		app = new AppVisualisation3D(helicopter);
+		double[] coordinates = {55.8580, -4.2590};
+		
+		AppSettings setting = new AppSettings(true);
+		setting.setTitle("Helicopter Simulation");
+		setting.setSettingsDialogImage("Textures/dialog.jpg");
+		
+		app = new AppVisualisation3D(helicopter, coordinates);
+		app.setSettings(setting);
 		app.start();
 		
 	}
