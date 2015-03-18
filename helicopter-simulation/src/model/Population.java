@@ -21,7 +21,7 @@ public class Population {
 	
 	// reading the file and returning the relevant subset as a 2D array
 	public static double[][] readPopulationData(int row1, int column1, int row2, int column2){
-		double[][] informationHolder = new double[(column2-column1)+1][(row2-row1)+1];
+		double[][] informationHolder = new double[(row2-row1)+1][(column2-column1)+1];
 		String currentLine;
 		BufferedReader filereader = null;
 		try {
@@ -40,6 +40,7 @@ public class Population {
 					String[] data = currentLine.split(" ");
 					informationHolderColumn = 0;
 					for (int position = column1; position<=column2; position++){
+						System.out.println(informationHolderRow+"  "+informationHolderColumn+"   "+position);
 						informationHolder[informationHolderRow][informationHolderColumn] = Double.parseDouble(data[position]);
 						informationHolderColumn++;
 					}
