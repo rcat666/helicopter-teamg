@@ -9,6 +9,7 @@ import model.Population;
 import model.Position;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.font.BitmapText;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.ActionListener;
@@ -18,6 +19,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 
 public class AppVisualisation3D extends SimpleApplication {
 
@@ -32,6 +34,7 @@ public class AppVisualisation3D extends SimpleApplication {
 	private Node area = new Node();
 	
 	private ArrayList<HeliStats> statsArray = new ArrayList<HeliStats>();
+	private ArrayList<BitmapText> hudText = new ArrayList<BitmapText>();	
 	double[] coordinates;
 	String mapType;
 	
@@ -57,13 +60,13 @@ public class AppVisualisation3D extends SimpleApplication {
 		statsArray = heli3Dmodel.stats();
 		
 		// Attach HUD
-		guiNode.attachChild(new HUD().createHUD(assetManager, guiFont, settings));
+		guiNode.attachChild(new HUD().createHUD(assetManager, guiFont, settings, hudText));
 		rootNode.attachChild(guiNode);
 		
 		//calculating people affected and printing it out in the console
 		//MOST THINGS ARE CURRENTLY HARDCODED!!
 		double peopleAffected = Population.calculatePeopleAffected(statsArray.get(0).getPosition(), statsArray.get(0).getPosition(), this.coordinates[0], this.coordinates[1], 50*Conversions.metersToUnit, 50*Conversions.metersToUnit);
-		System.out.printf("Total People affected %.2f\n", peopleAffected);
+		hudText.get(3).setText("People at risk: " + String.format("%.2f",peopleAffected));
 		
 		// Creates a camera in specified location, looking at a specific point,
 		// enables it,
@@ -125,11 +128,12 @@ public class AppVisualisation3D extends SimpleApplication {
 			// sets the first position for line drawing as the first position specified in arrayPos
 			// ignored the first time round
 			previousPosition = statsArray.get(arrayPos).getPosition();
+			
 		}
 
 		// gets current Position from the array of Helicopter
 		Position currentPosition = statsArray.get(arrayPos).getPosition();
-
+		hudText.get(0).setText("Speed: " + String.format("%.2f", statsArray.get(arrayPos).getSpeed()) + " mph");
 		// sets the Helicopter models position with values from trajectory
 		// array
 		heli3Dmodel.pos.setX(currentPosition.getX());
@@ -145,6 +149,9 @@ public class AppVisualisation3D extends SimpleApplication {
 		if (arrayPos < statsArray.size() - 1) arrayPos++; 
 		else if (!this.isCrashed && this.exec == 0) {this.isCrashed = true; this.exec++;}
 		heli3Dmodel.updatePosition();
+		
+		
+		
 		// creates the affected area
 		if (this.isCrashed) {
 			area.attachChild(new AffectedArea3D().getAffectedArea(assetManager, currentPosition));

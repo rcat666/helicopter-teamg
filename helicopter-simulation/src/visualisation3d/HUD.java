@@ -1,6 +1,8 @@
 package visualisation3d;
 
 
+import java.util.ArrayList;
+
 import com.jme3.asset.AssetManager;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
@@ -38,7 +40,7 @@ public class HUD {
 	 * @param guiFont
 	 * @param settings
 	 */
-	private void setTextLayer(AssetManager assetManager, BitmapFont guiFont, AppSettings settings){
+	private void setTextLayer(AssetManager assetManager, BitmapFont guiFont, AppSettings settings, ArrayList<BitmapText> hudList){
 		BitmapText hudText = new BitmapText(guiFont, false);          
 		hudText.setSize(guiFont.getCharSet().getRenderedSize());      
 		hudText.setColor(ColorRGBA.White);                            
@@ -59,6 +61,18 @@ public class HUD {
 		hudText2.setText("Position:");
 		hudText2.setLocalTranslation(0, settings.getHeight()-hudText.getLineHeight()*2, 0); // position
 		hud.attachChild(hudText2);
+		
+		BitmapText hudText3 = new BitmapText(guiFont, false);          
+		hudText3.setSize(guiFont.getCharSet().getRenderedSize());
+		hudText3.setColor(ColorRGBA.White);
+		hudText3.setText("");
+		hudText3.setLocalTranslation(0, settings.getHeight()-hudText.getLineHeight()*3, 0); // position
+		hud.attachChild(hudText3);
+		
+		hudList.add(hudText);
+		hudList.add(hudText1);
+		hudList.add(hudText2);
+		hudList.add(hudText3);
 	}
 	
 	/**
@@ -70,9 +84,9 @@ public class HUD {
 	 * @param settings
 	 * @return
 	 */
-	public Node createHUD(AssetManager assetManager, BitmapFont guiFont, AppSettings settings) {
+	public Node createHUD(AssetManager assetManager, BitmapFont guiFont, AppSettings settings, ArrayList<BitmapText> hudList) {
 		setBackgroundLayer(assetManager, settings);
-		setTextLayer(assetManager, guiFont, settings);
+		setTextLayer(assetManager, guiFont, settings, hudList);
 		return hud;
 	}
 	

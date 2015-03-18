@@ -1,5 +1,6 @@
 package visualisation3d;
 
+import model.Conversions;
 import model.Position;
 
 import com.jme3.asset.AssetManager;
@@ -13,7 +14,7 @@ import com.jme3.scene.shape.Box;
 public class AffectedArea3D {
 	
 	private Geometry createAffectedArea(AssetManager assetManager, Position currentPosition){
-		Box b = new Box(50,0.1f,50); //creates shape for holding texture
+		Box b = new Box((float)Conversions.metersToUnits(100),0.1f,(float)Conversions.metersToUnits(100)); //creates shape for holding texture
 		Geometry geometry = new Geometry("Box", b);
 		Material material = new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
 		material.setTexture("ColorMap", assetManager.loadTexture("Textures/affected_area.png")); //loads texture asset
