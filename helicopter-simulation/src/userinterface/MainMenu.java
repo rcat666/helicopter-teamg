@@ -3,10 +3,17 @@ package userinterface;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
+import model.Helicopter;
+import repository.FileInput;
+import visualisation3d.AppVisualisation3D;
+
+import com.jme3.system.AppSettings;
+
 //User interface class
-public class UI extends JFrame{
+public class MainMenu extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
 	private JLabel xCoordLabel;
@@ -15,6 +22,7 @@ public class UI extends JFrame{
 	private JLabel altitudeLabel;
 	private JLabel pitchLabel;
 	private JLabel angleLabel;
+	private JLabel mapTypeLabel;
 	
 	private JSpinner xCoordSpinner;
 	private JSpinner yCoordSpinner;
@@ -26,10 +34,12 @@ public class UI extends JFrame{
 	private JButton generateButton;
 	private JButton resetButton;
 	
+	private static AppVisualisation3D app;
+	
 	final int initial = 0;
 	
 	//User interface constructor
-	public UI(String UITitle){
+	public MainMenu(String UITitle){
 		super(UITitle);
 		setResizable(false); //Window is not resizable       	
     }
@@ -41,12 +51,20 @@ public class UI extends JFrame{
 		final JPanel controlPanel = new JPanel();
 		
 		//Labels
-		xCoordLabel = new JLabel("x-coordinates:");
-		yCoordLabel = new JLabel("y-coordinates:");
+		xCoordLabel = new JLabel("Latitude:");
+		xCoordLabel.setFont(new Font("Avenir", Font.BOLD, 15));
+		yCoordLabel = new JLabel("Longitude:");
+		yCoordLabel.setFont(new Font("Avenir", Font.BOLD, 15));
 		speedLabel = new JLabel("Speed (mph):     ");
+		speedLabel.setFont(new Font("Avenir", Font.BOLD, 15));
 		altitudeLabel = new JLabel("Altitude (m):    ");
-		pitchLabel = new JLabel("Pitch (°):    ");
-		angleLabel = new JLabel("Direction (°):    ");
+		altitudeLabel.setFont(new Font("Avenir", Font.BOLD, 15));
+		pitchLabel = new JLabel("Pitch (Â°):    ");
+		pitchLabel.setFont(new Font("Avenir", Font.BOLD, 15));
+		angleLabel = new JLabel("Direction (Â°):    ");
+		angleLabel.setFont(new Font("Avenir", Font.BOLD, 15));
+		mapTypeLabel = new JLabel("Map type:    ");
+		mapTypeLabel.setFont(new Font("Avenir", Font.BOLD, 15));
 		
 		//Formatting the JSpinners with preset models.
 		SpinnerModel xCoordModel =  new SpinnerNumberModel(0,-180,180,0.1);
@@ -58,15 +76,28 @@ public class UI extends JFrame{
 		
 		//JSpinners
 		xCoordSpinner = new JSpinner(xCoordModel);
+		xCoordSpinner.setFont(new Font("Avenir", Font.BOLD, 15));
 		yCoordSpinner = new JSpinner(yCoordModel);
+		yCoordSpinner.setFont(new Font("Avenir", Font.BOLD, 15));
 		speedSpinner = new JSpinner(speedLimits);
+		speedSpinner.setFont(new Font("Avenir", Font.BOLD, 15));
 		altitudeSpinner = new JSpinner(altitudeLimits);
+		altitudeSpinner.setFont(new Font("Avenir", Font.BOLD, 15));
 		pitchSpinner = new JSpinner(pitchLimits);
+		pitchSpinner.setFont(new Font("Avenir", Font.BOLD, 15));
 		angleSpinner = new JSpinner(angleLimits);
+		angleSpinner.setFont(new Font("Avenir", Font.BOLD, 15));
+		
+		//Pulldown menu
+		String[] mapTypes = {"Map","Satellite","Hybrid"};
+		final JComboBox mapTypeList = new JComboBox(mapTypes);
+		mapTypeList.setFont(new Font("Avenir", Font.BOLD, 15));
 		
 		//Buttons
 		generateButton = new JButton("Generate");
+		generateButton.setFont(new Font("Avenir", Font.BOLD, 15));
 		resetButton = new JButton("Reset");
+		resetButton.setFont(new Font("Avenir", Font.BOLD, 15));
 		
 		//Button listeners
 		generateButton.addActionListener(new ActionListener(){
@@ -77,13 +108,40 @@ public class UI extends JFrame{
 				double altitude = (double) altitudeSpinner.getValue();
 				double pitch = (double) pitchSpinner.getValue();
 				double angle = (double) angleSpinner.getValue();
+				String mapTypeValue = (String) mapTypeList.getSelectedItem();
+				String mapType = null;
+				
+				if (mapTypeValue.equals("Map"))mapType="map";
+				else if (mapTypeValue.equals("Satellite"))mapType = "sat";
+				else if (mapTypeValue.equals("Hybrid"))mapType = "hyb";
+				else if (mapTypeValue.equals(null))mapType = "map";
+				
+				Helicopter helicopter = FileInput.helicopterFromFile("./assets/Data/HelicopterDataSheet.csv");	//initiating helicopter with data from a file
+				helicopter.setAltitude(altitude);
+				helicopter.setAttitude(0);
+				helicopter.setHeading(angle);
+				helicopter.setPitch(pitch);
+				helicopter.setSpeed(speed);
+				
+				System.out.println(helicopter.toString());														//printing out information to check filereader
+				
+				double[] coordinates = {xCoordinate, yCoordinate};
+				
+				AppSettings setting = new AppSettings(true);
+				setting.setTitle("Helicopter Simulation");
+				setting.setSettingsDialogImage("Textures/dialog.jpg");
+				app = new AppVisualisation3D(helicopter, coordinates, mapType);
+				app.setSettings(setting);
+				new Thread(new Runnable(){
+					public void run(){app.start();}}).start();
+				
 				System.out.println("xCoord: " + xCoordinate);
 				System.out.println("yCoord: " + yCoordinate);
 				System.out.println("Speed: " + speed + "mph");
 				System.out.println("Altitude: " + altitude + "m");
-				System.out.println("Speed: " + pitch + "°");
-			}
-		});
+				System.out.println("Speed: " + pitch + "ï¿½");
+			}}
+		);
 		
 		//Reset button will reset all JSpinner values to their original value.
 		resetButton.addActionListener(new ActionListener(){
@@ -140,12 +198,18 @@ public class UI extends JFrame{
         c.gridx = 1;
         c.gridy = 5;
         controlPanel.add(angleSpinner, c);
-        c.insets = new Insets(10,5,5,5);
         c.gridx = 0;
         c.gridy = 6;
-        controlPanel.add(generateButton, c);
+        controlPanel.add(mapTypeLabel, c);
         c.gridx = 1;
         c.gridy = 6;
+        controlPanel.add(mapTypeList,c);
+        c.insets = new Insets(10,5,5,5);
+        c.gridx = 0;
+        c.gridy = 7;
+        controlPanel.add(generateButton, c);
+        c.gridx = 1;
+        c.gridy = 7;
         controlPanel.add(resetButton, c);
         
         display.add(controlPanel);     
@@ -153,9 +217,9 @@ public class UI extends JFrame{
 	}
 	
 	//Method to create and display the UI
-	private static void createAndShowGUI(){
+	protected static void createAndShowGUI(){
 		//Create user interface window
-		UI window = new UI("Simulation");
+		MainMenu window = new MainMenu("Simulation");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//Set up button frame
@@ -163,17 +227,9 @@ public class UI extends JFrame{
 		
 		//Display the window
 		window.pack();
+		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 	}
-	
-	//Main method
-    public static void main(String[] args) {
-    	SwingUtilities.invokeLater(new Runnable(){
-    		public void run() {createAndShowGUI();}
-    	});
-    }
-
-	
 }
 
 

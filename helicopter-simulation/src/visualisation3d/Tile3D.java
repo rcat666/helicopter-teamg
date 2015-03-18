@@ -15,12 +15,12 @@ public class Tile3D {
 	 * @param assetManager
 	 * @return
 	 */
-	private Geometry createTile3D(AssetManager assetManager, double[] coordinates){
+	private Geometry createTile3D(AssetManager assetManager, double[] coordinates, String mapType){
 		Box tile = new Box(256, 0.1f, 256);
 		Geometry geometry = new Geometry("Box", tile);
 		Material material = new Material(assetManager,"Common/MatDefs/Misc/Unshaded.j3md");
 		try {
-			material.setTexture("ColorMap", getMapTexture(coordinates));
+			material.setTexture("ColorMap", getMapTexture(coordinates, mapType));
 		} catch (IOException e) {
 			new Exception("Couldn't load map");
 		}
@@ -28,11 +28,11 @@ public class Tile3D {
 		return geometry;
 	}
 	
-	private Texture getMapTexture(double[] coordinates) throws IOException {
-		return new VisController().updateMap(coordinates);
+	private Texture getMapTexture(double[] coordinates, String mapType) throws IOException {
+		return new VisController().updateMap(coordinates, mapType);
 	}
 	
-	public Geometry getTile3D(AssetManager assetManager, double[] coordinates){
-		return this.createTile3D(assetManager,coordinates);
+	public Geometry getTile3D(AssetManager assetManager, double[] coordinates, String mapType){
+		return this.createTile3D(assetManager,coordinates, mapType);
 	}
 }

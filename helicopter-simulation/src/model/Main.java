@@ -21,8 +21,8 @@ public class Main {
 		AppSettings setting = new AppSettings(true);
 		setting.setTitle("Helicopter Simulation");
 		setting.setSettingsDialogImage("Textures/dialog.jpg");
-		
-		app = new AppVisualisation3D(helicopter, coordinates);
+		String mapType = "hyb";
+		app = new AppVisualisation3D(helicopter, coordinates, mapType);
 		app.setSettings(setting);
 		app.start();
 		

@@ -33,12 +33,13 @@ public class AppVisualisation3D extends SimpleApplication {
 	
 	private ArrayList<HeliStats> statsArray = new ArrayList<HeliStats>();
 	double[] coordinates;
+	String mapType;
 	
 	@Override
 	public void simpleInitApp() {
 
 		// Attach map tile 
-		map = new Tile3D().getTile3D(assetManager, this.coordinates);
+		map = new Tile3D().getTile3D(assetManager, this.coordinates, this.mapType);
 		rootNode.attachChild(map);
 		
 		// Attach path node to enable controls
@@ -151,10 +152,11 @@ public class AppVisualisation3D extends SimpleApplication {
 		}
 	}
 	
-	public AppVisualisation3D(Helicopter helicopter, double[] coordinates){
+	public AppVisualisation3D(Helicopter helicopter, double[] coordinates, String mapType){
 		super();
 		this.helicopter=helicopter;
 		this.coordinates=coordinates;
+		this.mapType=mapType;
 	}
 
 	
