@@ -6,7 +6,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import model.Conversions;
 import model.Helicopter;
+import model.Position;
 import repository.FileInput;
 import visualisation3d.AppVisualisation3D;
 
@@ -70,7 +72,7 @@ public class MainMenu extends JFrame{
 		SpinnerModel xCoordModel =  new SpinnerNumberModel(0,-180,180,0.1);
 		SpinnerModel yCoordModel =  new SpinnerNumberModel(0,-180,180,0.1);
 		SpinnerModel speedLimits = new SpinnerNumberModel(0,0,500,0.1);
-		SpinnerModel altitudeLimits = new SpinnerNumberModel(0,0,500,0.1);
+		SpinnerModel altitudeLimits = new SpinnerNumberModel(0,0,2000000,0.1);
 		SpinnerModel pitchLimits = new SpinnerNumberModel(0,-90,90,0.1);
 		SpinnerModel angleLimits = new SpinnerNumberModel(0,0,360,0.1);
 		
@@ -122,6 +124,7 @@ public class MainMenu extends JFrame{
 				helicopter.setHeading(angle);
 				helicopter.setPitch(pitch);
 				helicopter.setSpeed(speed);
+				helicopter.setPos(new Position(0,(float) Conversions.metersToUnits(altitude),0));
 				
 				System.out.println(helicopter.toString());														//printing out information to check filereader
 				
