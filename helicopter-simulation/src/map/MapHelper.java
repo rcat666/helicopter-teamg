@@ -11,7 +11,7 @@ import model.Conversions;
 
 public class MapHelper {
 	
-	public static int mapSize = 512;
+	public static int mapSize = 3072;
 	private static String apikey= "Fmjtd%7Cluu82lurnq%2Cax%3Do5-94850w";
 	
 	public static BufferedImage mapImageWithOptions(double lat, double longitude, String mapType) throws IOException {
