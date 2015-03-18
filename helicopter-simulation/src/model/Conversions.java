@@ -49,6 +49,7 @@ public class Conversions {
 		newSpeed=newSpeed*60;
 		
 		newSpeed = newSpeed*metersToUnit;
+		newSpeed = newSpeed / (double) (1000);
 		newSpeed = newSpeed/1.609344;
 		return newSpeed;
 	}

@@ -36,7 +36,7 @@ public class CrashTrajectory {
 		// calculates new positions and adds them to the copy of the arraylist
 		while (lastPos.getY() >= 0) {
 			trajectory.add(new HeliStats(ThrowCalculations.calculateNewPos(time, helicopter,
-					heliHeading, heliPitch), Conversions.unitsPSecondToMph(ThrowCalculations.calculateSpeed(time, heliPitch, Conversions.mphToUnitsPSecond((helicopter.getSpeed()))))));
+					heliHeading, heliPitch), Conversions.unitsPSecondToMph(ThrowCalculations.calculateSpeed(time, heliPitch, (helicopter.getSpeed())))));
 			trajectoryLength++;
 			lastStats = trajectory.get(trajectoryLength - 1);
 			lastPos = lastStats.getPosition();
