@@ -131,7 +131,7 @@ public class MainMenu extends JFrame{
 				double[] coordinates = {xCoordinate, yCoordinate};
 				
 				AppSettings setting = new AppSettings(true);
-				setting.setTitle("Helicopter Simulation");
+				setting.setTitle("TP3 Project");
 				setting.setSettingsDialogImage("Textures/dialog.jpg");
 				app = new AppVisualisation3D(helicopter, coordinates, mapType);
 				app.setSettings(setting);
@@ -222,7 +222,7 @@ public class MainMenu extends JFrame{
 	//Method to create and display the UI
 	protected static void createAndShowGUI(){
 		//Create user interface window
-		MainMenu window = new MainMenu("Simulation");
+		MainMenu window = new MainMenu("TP3 Project");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//Set up button frame
