@@ -42,28 +42,28 @@ public class HUD {
 	 */
 	private void setTextLayer(AssetManager assetManager, BitmapFont guiFont, AppSettings settings, ArrayList<BitmapText> hudList){
 		BitmapText hudText = new BitmapText(guiFont, false);          
-		hudText.setSize(guiFont.getCharSet().getRenderedSize());      
+		hudText.setSize(settings.getHeight()/45);      
 		hudText.setColor(ColorRGBA.White);                            
 		hudText.setText("Speed: " + " mph");             
 		hudText.setLocalTranslation(0, hudText.getLineHeight()*4, 0); // position
 		hud.attachChild(hudText);
 		
 		BitmapText hudText1 = new BitmapText(guiFont, false);          
-		hudText1.setSize(guiFont.getCharSet().getRenderedSize());
+		hudText1.setSize(settings.getHeight()/45);
 		hudText1.setColor(ColorRGBA.White);
 		hudText1.setText("Height:");
 		hudText1.setLocalTranslation(0, hudText1.getLineHeight()*3, 0); // position
 		hud.attachChild(hudText1);
 		
 		BitmapText hudText2 = new BitmapText(guiFont, false);          
-		hudText2.setSize(guiFont.getCharSet().getRenderedSize());
+		hudText2.setSize(settings.getHeight()/45);
 		hudText2.setColor(ColorRGBA.White);
 		hudText2.setText("Position:");
 		hudText2.setLocalTranslation(0, hudText.getLineHeight()*2, 0); // position
 		hud.attachChild(hudText2);
 		
 		BitmapText hudText3 = new BitmapText(guiFont, false);          
-		hudText3.setSize(guiFont.getCharSet().getRenderedSize());
+		hudText3.setSize(settings.getHeight()/45);
 		hudText3.setColor(ColorRGBA.White);
 		hudText3.setText("");
 		hudText3.setLocalTranslation(0, hudText.getLineHeight(), 0); // position

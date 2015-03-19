@@ -27,7 +27,7 @@ public class WelcomeScreen extends JFrame {
 	
 	private void initialiseUI(final Container display){
 		final JPanel mainPanel = new JPanel();
-		mainblock = new JLabel ("<html><div style=\"text-align: center; font-family: Avenir; font-weight: bold; font-size: 52pt;\">Team G</div><div div style=\"text-align: center; font-size: 18pt; font-family: Avenir;\"><br>This software application is developed under<br> the supervision of Professor Chris Johnson.<br>The program is based on the works of Arnaud Prouzeau.<br> <br><div style=\"text-align: center; font-size: 12pt;\">Please be aware that not all satellite images are available for every location.<br>The trajectory is not based on complex formulae.");
+		mainblock = new JLabel ("<html><div style=\"text-align: center; font-family: Avenir; font-weight: bold; font-size: 52pt;\">Team G</div><div div style=\"text-align: center; font-size: 18pt; font-family: Avenir;\"><br>This software application is developed under<br> the supervision of Professor Chris Johnson.<br>The program is based on the works of Arnaud Prouzeau.<br> <br><div style=\"text-align: center; font-size: 12pt;\">Please be aware that not all satellite images are available for every location.<br>The trajectory is not based on complex formulae.<br>For help, hover over each component to view a tooltip.");
 		
 		startButton = new JButton("Start");
 		startButton.setFont(new Font("Avenir", Font.BOLD, 15));

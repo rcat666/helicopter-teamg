@@ -67,7 +67,7 @@ public class AppVisualisation3D extends SimpleApplication {
 		//MOST THINGS ARE CURRENTLY HARDCODED!!
 		double peopleAffected = Population.calculatePeopleAffected(statsArray.get(0).getPosition(), statsArray.get(0).getPosition(), this.coordinates[0], this.coordinates[1], 50*Conversions.metersToUnit, 50*Conversions.metersToUnit);
 		hudText.get(3).setText("People at risk: " + String.format("%.2f",peopleAffected));
-		
+		hudText.get(2).setText("Position: " + String.format("%.4f  %.4f", coordinates[0] , coordinates[1]));
 		// Creates a camera in specified location, looking at a specific point,
 		// enables it,
 		// set its moving speed and property to rotate by mouse drag
@@ -137,7 +137,7 @@ public class AppVisualisation3D extends SimpleApplication {
 		// updates the textboxes with speed and height
 		hudText.get(0).setText("Speed: " + String.format("%.2f", statsArray.get(arrayPos).getSpeed()) + " mph");
 		hudText.get(1).setText("Height: " + String.format("%.2f", Conversions.metersToUnit*(statsArray.get(arrayPos).getPosition().getY()))+ " m");
-	
+		
 		// sets the Helicopter models position with values from trajectory
 		// array
 		heli3Dmodel.pos.setX(currentPosition.getX());

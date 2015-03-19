@@ -59,7 +59,7 @@ public class MainMenu extends JFrame{
 		yCoordLabel.setFont(new Font("Avenir", Font.BOLD, 15));
 		speedLabel = new JLabel("Speed (mph):     ");
 		speedLabel.setFont(new Font("Avenir", Font.BOLD, 15));
-		altitudeLabel = new JLabel("Altitude (m):    ");
+		altitudeLabel = new JLabel("Altitude (meters):    ");
 		altitudeLabel.setFont(new Font("Avenir", Font.BOLD, 15));
 		pitchLabel = new JLabel("Pitch (°):    ");
 		pitchLabel.setFont(new Font("Avenir", Font.BOLD, 15));
@@ -69,17 +69,19 @@ public class MainMenu extends JFrame{
 		mapTypeLabel.setFont(new Font("Avenir", Font.BOLD, 15));
 		
 		//Formatting the JSpinners with preset models.
-		SpinnerModel xCoordModel =  new SpinnerNumberModel(0,-180,180,0.1);
-		SpinnerModel yCoordModel =  new SpinnerNumberModel(0,-180,180,0.1);
+		SpinnerModel xCoordModel =  new SpinnerNumberModel(55.8580,-180,180,0.0001);
+		SpinnerModel yCoordModel =  new SpinnerNumberModel(-4.2590,-180,180,0.0001);
 		SpinnerModel speedLimits = new SpinnerNumberModel(0,0,500,0.1);
-		SpinnerModel altitudeLimits = new SpinnerNumberModel(0,0,2000000,0.1);
+		SpinnerModel altitudeLimits = new SpinnerNumberModel(0,0,20000,0.1);
 		SpinnerModel pitchLimits = new SpinnerNumberModel(0,-90,90,0.1);
 		SpinnerModel angleLimits = new SpinnerNumberModel(0,0,360,0.1);
 		
 		//JSpinners
 		xCoordSpinner = new JSpinner(xCoordModel);
+		xCoordSpinner.setEditor(new JSpinner.NumberEditor(xCoordSpinner, "0.0000"));
 		xCoordSpinner.setFont(new Font("Avenir", Font.BOLD, 15));
 		yCoordSpinner = new JSpinner(yCoordModel);
+		yCoordSpinner.setEditor(new JSpinner.NumberEditor(yCoordSpinner, "0.0000"));
 		yCoordSpinner.setFont(new Font("Avenir", Font.BOLD, 15));
 		speedSpinner = new JSpinner(speedLimits);
 		speedSpinner.setFont(new Font("Avenir", Font.BOLD, 15));
@@ -89,6 +91,13 @@ public class MainMenu extends JFrame{
 		pitchSpinner.setFont(new Font("Avenir", Font.BOLD, 15));
 		angleSpinner = new JSpinner(angleLimits);
 		angleSpinner.setFont(new Font("Avenir", Font.BOLD, 15));
+		
+		xCoordSpinner.setToolTipText("<html>Enter the <b><u>longitude</u></b> here, to 4 decimal places.<br><b>Positive</b> values are north.<br><b>Negative</b> values are south.");
+		yCoordSpinner.setToolTipText("<html>Enter the <u><b>latitude</b></u> here, to 4 decimal places.<br><b>Positive</b> values are west.<br><b>Negative</b> values are east.");
+		speedSpinner.setToolTipText("<html>Enter the <u><b>speed</b></u> of the helicopter here.<br>The speed is measured in miles per hour.<br>Must be greater than or equal to 0.");
+		altitudeSpinner.setToolTipText("<html>Enter the <u><b>altitude</b></u> of the helicopter here.<br>The altitude is measured in meters.<br>Must be greater than or equal to 0.");
+		pitchSpinner.setToolTipText("<html>Enter the <u><b>pitch</b></u> of the helicopter here.<br>The pitch is measured in degrees.<br>Must be between -90 and 90.");
+		angleSpinner.setToolTipText("<html>Enter the <u><b>direction</b></u> of the helicopter here.<br>The heading is measured in degrees.<br>Must be between 0 and 360.");
 		
 		//Pulldown menu
 		String[] mapTypes = {"Map","Satellite","Hybrid"};
@@ -100,6 +109,10 @@ public class MainMenu extends JFrame{
 		generateButton.setFont(new Font("Avenir", Font.BOLD, 15));
 		resetButton = new JButton("Reset");
 		resetButton.setFont(new Font("Avenir", Font.BOLD, 15));
+		
+		generateButton.setToolTipText("Begin simulation");
+		resetButton.setToolTipText("Resets all the fields to 0.");
+		mapTypeList.setToolTipText("<html>Choose a map type to run the simulation in.<br><b>Map</b> shows a map with roads and names.<br><b>Satellite</b> shows satellite images.<br<b>Hybrid</b> shows a combination of the map and satellite images.");
 		
 		//Button listeners
 		generateButton.addActionListener(new ActionListener(){
@@ -126,8 +139,6 @@ public class MainMenu extends JFrame{
 				helicopter.setSpeed(speed);
 				helicopter.setPos(new Position(0,(float) Conversions.metersToUnits(altitude),0));
 				
-				System.out.println(helicopter.toString());														//printing out information to check filereader
-				
 				double[] coordinates = {xCoordinate, yCoordinate};
 				
 				AppSettings setting = new AppSettings(true);
@@ -137,12 +148,6 @@ public class MainMenu extends JFrame{
 				app.setSettings(setting);
 				new Thread(new Runnable(){
 					public void run(){app.start();}}).start();
-				
-				System.out.println("xCoord: " + xCoordinate);
-				System.out.println("yCoord: " + yCoordinate);
-				System.out.println("Speed: " + speed + "mph");
-				System.out.println("Altitude: " + altitude + "m");
-				System.out.println("Speed: " + pitch + "�");
 			}}
 		);
 		
