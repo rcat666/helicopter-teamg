@@ -26,8 +26,8 @@ public class HUD {
 		Picture pic = new Picture("HUD Picture");
 		pic.setImage(assetManager, "Textures/HUD.png", true);
 		pic.setWidth(settings.getWidth()/3);
-		pic.setHeight(settings.getHeight()/3);
-		pic.setPosition(0, settings.getHeight()-settings.getHeight()/3);
+		pic.setHeight(settings.getHeight()/5);
+		pic.setPosition(0, 0);
 		hud.attachChild(pic);
 	}
 	
@@ -45,28 +45,28 @@ public class HUD {
 		hudText.setSize(guiFont.getCharSet().getRenderedSize());      
 		hudText.setColor(ColorRGBA.White);                            
 		hudText.setText("Speed: " + " mph");             
-		hudText.setLocalTranslation(0, settings.getHeight(), 0); // position
+		hudText.setLocalTranslation(0, hudText.getLineHeight()*4, 0); // position
 		hud.attachChild(hudText);
 		
 		BitmapText hudText1 = new BitmapText(guiFont, false);          
 		hudText1.setSize(guiFont.getCharSet().getRenderedSize());
 		hudText1.setColor(ColorRGBA.White);
 		hudText1.setText("Height:");
-		hudText1.setLocalTranslation(0, settings.getHeight()-hudText.getLineHeight(), 0); // position
+		hudText1.setLocalTranslation(0, hudText1.getLineHeight()*3, 0); // position
 		hud.attachChild(hudText1);
 		
 		BitmapText hudText2 = new BitmapText(guiFont, false);          
 		hudText2.setSize(guiFont.getCharSet().getRenderedSize());
 		hudText2.setColor(ColorRGBA.White);
 		hudText2.setText("Position:");
-		hudText2.setLocalTranslation(0, settings.getHeight()-hudText.getLineHeight()*2, 0); // position
+		hudText2.setLocalTranslation(0, hudText.getLineHeight()*2, 0); // position
 		hud.attachChild(hudText2);
 		
 		BitmapText hudText3 = new BitmapText(guiFont, false);          
 		hudText3.setSize(guiFont.getCharSet().getRenderedSize());
 		hudText3.setColor(ColorRGBA.White);
 		hudText3.setText("");
-		hudText3.setLocalTranslation(0, settings.getHeight()-hudText.getLineHeight()*3, 0); // position
+		hudText3.setLocalTranslation(0, hudText.getLineHeight(), 0); // position
 		hud.attachChild(hudText3);
 		
 		hudList.add(hudText);
