@@ -133,7 +133,11 @@ public class AppVisualisation3D extends SimpleApplication {
 
 		// gets current Position from the array of Helicopter
 		Position currentPosition = statsArray.get(arrayPos).getPosition();
+		
+		// updates the textboxes with speed and height
 		hudText.get(0).setText("Speed: " + String.format("%.2f", statsArray.get(arrayPos).getSpeed()) + " mph");
+		hudText.get(1).setText("Height: " + String.format("%.2f", Conversions.metersToUnit*(statsArray.get(arrayPos).getPosition().getY()))+ " m");
+	
 		// sets the Helicopter models position with values from trajectory
 		// array
 		heli3Dmodel.pos.setX(currentPosition.getX());
