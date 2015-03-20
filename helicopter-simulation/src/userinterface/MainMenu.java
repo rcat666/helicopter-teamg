@@ -103,7 +103,7 @@ public class MainMenu extends JFrame{
 		angleSpinner.setFont(new Font("Avenir", Font.BOLD, 15));
 		
 		xCoordSpinner.setToolTipText("<html>Enter the <b><u>longitude</u></b> here, to 4 decimal places.<br><b>Positive</b> values are north.<br><b>Negative</b> values are south.");
-		yCoordSpinner.setToolTipText("<html>Enter the <u><b>latitude</b></u> here, to 4 decimal places.<br><b>Positive</b> values are west.<br><b>Negative</b> values are east.");
+		yCoordSpinner.setToolTipText("<html>Enter the <u><b>latitude</b></u> here, to 4 decimal places.<br><b>Positive</b> values are east.<br><b>Negative</b> values are west.");
 		speedSpinner.setToolTipText("<html>Enter the <u><b>speed</b></u> of the helicopter here.<br>The speed is measured in miles per hour.<br>Must be greater than or equal to 0.");
 		altitudeSpinner.setToolTipText("<html>Enter the <u><b>altitude</b></u> of the helicopter here.<br>The altitude is measured in meters.<br>Must be greater than or equal to 0.");
 		pitchSpinner.setToolTipText("<html>Enter the <u><b>pitch</b></u> of the helicopter here.<br>The pitch is measured in degrees.<br>Must be between -90 and 90.");
