@@ -98,4 +98,43 @@ public class FileInput {
 		}
 		return new Helicopter(new HelicopterType(name, length, r_length, r_diam, height, weight), altitude, heading, speed, attitude, pitch);
 	}
+
+	//returns a Helicoptertype instance with data from a file 
+	public static HelicopterType helicopterTypeFromFile(String fileName){
+		ArrayList<String> data= getDataFromFile(fileName);
+		//initiating all variables
+		String name=null;
+		double length = 0;
+		double r_length = 0;
+		double r_diam = 0;
+		double height = 0;
+		double weight = 0;
+		
+		//assigning values to the right variables
+		for(String information:data){
+			String[] thisLine= information.split(",");
+			switch (thisLine[0]){
+				case "name": 
+					name = thisLine[1];
+					break;
+				case "length": 
+					length = Double.parseDouble(thisLine[1]);
+					break;
+				case "rotor length": 
+					r_length = Double.parseDouble(thisLine[1]);
+					break;
+				case "rotor diameter": 
+					r_diam = Double.parseDouble(thisLine[1]);
+					break;
+				case "height": 
+					height = Double.parseDouble(thisLine[1]);
+					break;
+				case "weight": 
+					weight = Double.parseDouble(thisLine[1]);
+					break;
+					}
+		}
+		return new HelicopterType(name, length, r_length, r_diam, height, weight);
+	}
+
 }
