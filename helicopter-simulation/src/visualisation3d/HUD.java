@@ -41,38 +41,46 @@ public class HUD {
 	 * @param settings
 	 */
 	private void setTextLayer(AssetManager assetManager, BitmapFont guiFont, AppSettings settings, ArrayList<BitmapText> hudList){
-		BitmapText hudText = new BitmapText(guiFont, false);          
-		hudText.setSize(settings.getHeight()/45);      
-		hudText.setColor(ColorRGBA.White);                            
-		hudText.setText("Speed: " + " mph");             
-		hudText.setLocalTranslation(0, hudText.getLineHeight()*4, 0); // position
-		hud.attachChild(hudText);
+		BitmapText speedText = new BitmapText(guiFont, false);          
+		speedText.setSize(settings.getHeight()/45);      
+		speedText.setColor(ColorRGBA.White);                            
+		speedText.setText("Speed: " + " mph");             
+		speedText.setLocalTranslation(0, speedText.getLineHeight()*5, 0); // position
+		hud.attachChild(speedText);
 		
-		BitmapText hudText1 = new BitmapText(guiFont, false);          
-		hudText1.setSize(settings.getHeight()/45);
-		hudText1.setColor(ColorRGBA.White);
-		hudText1.setText("Height:");
-		hudText1.setLocalTranslation(0, hudText1.getLineHeight()*3, 0); // position
-		hud.attachChild(hudText1);
+		BitmapText altitudeText = new BitmapText(guiFont, false);          
+		altitudeText.setSize(settings.getHeight()/45);
+		altitudeText.setColor(ColorRGBA.White);
+		altitudeText.setText("Height:");
+		altitudeText.setLocalTranslation(0, altitudeText.getLineHeight()*4, 0); // position
+		hud.attachChild(altitudeText);
 		
-		BitmapText hudText2 = new BitmapText(guiFont, false);          
-		hudText2.setSize(settings.getHeight()/45);
-		hudText2.setColor(ColorRGBA.White);
-		hudText2.setText("Position:");
-		hudText2.setLocalTranslation(0, hudText.getLineHeight()*2, 0); // position
-		hud.attachChild(hudText2);
+		BitmapText posText = new BitmapText(guiFont, false);          
+		posText.setSize(settings.getHeight()/45);
+		posText.setColor(ColorRGBA.White);
+		posText.setText("Position:");
+		posText.setLocalTranslation(0, posText.getLineHeight()*3, 0); // position
+		hud.attachChild(posText);
 		
-		BitmapText hudText3 = new BitmapText(guiFont, false);          
-		hudText3.setSize(settings.getHeight()/45);
-		hudText3.setColor(ColorRGBA.White);
-		hudText3.setText("");
-		hudText3.setLocalTranslation(0, hudText.getLineHeight(), 0); // position
-		hud.attachChild(hudText3);
+		BitmapText timeText = new BitmapText(guiFont, false);          
+		timeText.setSize(settings.getHeight()/45);
+		timeText.setColor(ColorRGBA.White);
+		timeText.setText("");
+		timeText.setLocalTranslation(0, timeText.getLineHeight()*2, 0); // position
+		hud.attachChild(timeText);
 		
-		hudList.add(hudText);
-		hudList.add(hudText1);
-		hudList.add(hudText2);
-		hudList.add(hudText3);
+		BitmapText popText = new BitmapText(guiFont, false);          
+		popText.setSize(settings.getHeight()/45);
+		popText.setColor(ColorRGBA.White);
+		popText.setText("");
+		popText.setLocalTranslation(0, popText.getLineHeight(), 0); // position
+		hud.attachChild(popText);
+		
+		hudList.add(speedText);
+		hudList.add(altitudeText);
+		hudList.add(posText);
+		hudList.add(timeText);
+		hudList.add(popText);
 	}
 	
 	/**

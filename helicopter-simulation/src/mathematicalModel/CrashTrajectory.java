@@ -31,19 +31,20 @@ public class CrashTrajectory {
 		HeliStats lastStats = trajectory.get(trajectoryLength - 1);
 		Position lastPos = lastStats.getPosition();
 		
-		double time = 0.01;
+		int time = 1;
 
 		// calculates new positions and adds them to the copy of the arraylist
 		while (lastPos.getY() >= 0) {
-			trajectory.add(new HeliStats(ThrowCalculations.calculateNewPos(time, helicopter,
-					heliHeading, heliPitch), Conversions.unitsPSecondToMph(ThrowCalculations.calculateSpeed(time, heliPitch, (helicopter.getSpeed())))));
+			trajectory.add(new HeliStats(ThrowCalculations.calculateNewPos(time/100.0, helicopter,
+					heliHeading, heliPitch), Conversions.unitsPSecondToMph(ThrowCalculations.calculateSpeed(time/100.0, heliPitch, (helicopter.getSpeed()))), time/100.0));
 			trajectoryLength++;
 			lastStats = trajectory.get(trajectoryLength - 1);
 			lastPos = lastStats.getPosition();
-			time += 0.01;
+			time += 1;
+
 		}
 		
-		System.out.println("CURRENT TIME  "+ time);
+		//System.out.println("CURRENT TIME  "+ time);
 		//removes the last position as this is in the ground
 		//trajectory.remove(trajectoryLength-1);
 		

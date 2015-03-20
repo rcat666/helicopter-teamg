@@ -9,3 +9,6 @@ Tiles
 .metadata
 .recommenders
 
+lwjgl.dll
+OpenAL32.dll
+assets/Data/glp15ag.asc

@@ -33,7 +33,7 @@ public class TrajectoryInformation {
 	public TrajectoryInformation(Helicopter helicopter) {
 		this.heli = helicopter;
 		this.helistats = new ArrayList<HeliStats>();
-		helistats.add(new HeliStats(heli.getPos(),heli.getSpeed()));
+		helistats.add(new HeliStats(heli.getPos(),heli.getSpeed(), 0.0));
 	}
 
 }
