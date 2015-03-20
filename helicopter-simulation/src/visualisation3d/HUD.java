@@ -44,7 +44,7 @@ public class HUD {
 		BitmapText heliNameText = new BitmapText(guiFont, false);          
 		heliNameText.setSize(settings.getHeight()/45);      
 		heliNameText.setColor(ColorRGBA.White);                            
-		heliNameText.setText("Helicopter");             
+		heliNameText.setText("Helicopter: ");             
 		heliNameText.setLocalTranslation(0, heliNameText.getLineHeight()*6, 0); // position
 		hud.attachChild(heliNameText);
 		

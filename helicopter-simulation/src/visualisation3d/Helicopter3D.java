@@ -38,7 +38,7 @@ public class Helicopter3D {
 		BoundingBox heliBounding=(BoundingBox) helicopter3DModel.getWorldBound();
 		
 		
-		helicopter3DModel.scale((float) getScalingFactor(heliBounding,helicopter));
+		helicopter3DModel.scale((float) getScalingFactor(heliBounding,helicopter)*10);
 		helicopter3DModel.rotate(0, (float) Conversions.degreeToRadians(helicopter.getHeading()), 0); // rotate the model to the correct direction
 
 		Material helicopterMaterial = new Material(assetManager,

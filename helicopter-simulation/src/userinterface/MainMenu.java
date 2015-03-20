@@ -14,6 +14,7 @@ import javax.swing.event.ChangeListener;
 
 import model.Conversions;
 import model.Helicopter;
+import model.HelicopterType;
 import model.Position;
 import repository.FileInput;
 import visualisation3d.AppVisualisation3D;
@@ -31,6 +32,7 @@ public class MainMenu extends JFrame{
 	private JLabel pitchLabel;
 	private JLabel angleLabel;
 	private JLabel mapTypeLabel;
+	private JLabel helicopterTypeLabel;
 	
 	private JSpinner xCoordSpinner;
 	private JSpinner yCoordSpinner;
@@ -73,6 +75,8 @@ public class MainMenu extends JFrame{
 		angleLabel.setFont(new Font("Avenir", Font.BOLD, 15));
 		mapTypeLabel = new JLabel("Map type:    ");
 		mapTypeLabel.setFont(new Font("Avenir", Font.BOLD, 15));
+		helicopterTypeLabel = new JLabel("Helicopter model:    ");
+		helicopterTypeLabel.setFont(new Font("Avenir", Font.BOLD, 15));
 		
 		//Formatting the JSpinners with preset models.
 		SpinnerModel xCoordModel =  new SpinnerNumberModel(55.8580,-180,180,0.0001);
@@ -110,16 +114,19 @@ public class MainMenu extends JFrame{
 		final JComboBox mapTypeList = new JComboBox(mapTypes);
 		mapTypeList.setFont(new Font("Avenir", Font.BOLD, 15));
 		
+		String[] helicopterTypes = {"Bell 204B", "Super Puma AS332L2", "Sikorsky S76C++", "Sikorsky S64C", "Kamov Ka27", "Apache AH1"};
+		final JComboBox helicopterTypeList = new JComboBox(helicopterTypes);
+		helicopterTypeList.setFont(new Font("Avenir", Font.BOLD, 15));
+		
 		//Buttons
 		generateButton = new JButton("Generate");
 		generateButton.setFont(new Font("Avenir", Font.BOLD, 15));
 		resetButton = new JButton("Reset");
 		resetButton.setFont(new Font("Avenir", Font.BOLD, 15));
-		
 		generateButton.setToolTipText("Begin simulation");
 		resetButton.setToolTipText("Resets all the fields to 0.");
 		mapTypeList.setToolTipText("<html>Choose a map type to run the simulation in.<br><b>Map</b> shows a map with roads and names.<br><b>Satellite</b> shows satellite images.<br<b>Hybrid</b> shows a combination of the map and satellite images.");
-		
+		helicopterTypeList.setToolTipText("<html>Choose a helicopter type to run the simulation with.");
 
 		//Image for compass
 		final BufferedImage picture = ImageIO.read(new File("assets/Textures/compass.png"));
@@ -148,7 +155,7 @@ public class MainMenu extends JFrame{
 				double speed = (double) speedSpinner.getValue();
 				double altitude = (double) altitudeSpinner.getValue();
 				double pitch = (double) pitchSpinner.getValue();
-				double angle = (double) angleSpinner.getValue();
+				double direction = (double) angleSpinner.getValue();
 				String mapTypeValue = (String) mapTypeList.getSelectedItem();
 				String mapType = null;
 				
@@ -157,13 +164,17 @@ public class MainMenu extends JFrame{
 				else if (mapTypeValue.equals("Hybrid"))mapType = "hyb";
 				else if (mapTypeValue.equals(null))mapType = "map";
 				
-				Helicopter helicopter = FileInput.helicopterFromFile("./assets/Data/HelicopterDataSheet.csv");	//initiating helicopter with data from a file
-				helicopter.setAltitude(altitude);
-				helicopter.setAttitude(0);
-				helicopter.setHeading(angle);
-				helicopter.setPitch(pitch);
-				helicopter.setSpeed(speed);
-				helicopter.setPos(new Position(0,(float) Conversions.metersToUnits(altitude),0));
+				String helicopterFile = null;
+				String helicopterTypeValue = (String) helicopterTypeList.getSelectedItem();
+				if (helicopterTypeValue.equals("Bell 204B")){helicopterFile = "Bell204B.csv";}
+				else if (helicopterTypeValue.equals("Super Puma AS332L2")){helicopterFile = "SuperPumaAS332L2.csv";}
+				else if (helicopterTypeValue.equals("Sikorsky S76C++")){helicopterFile = "SikorskyS76C++.csv";}
+				else if (helicopterTypeValue.equals("Sikorsky S64C")){helicopterFile = "SikorskyS64C.csv";}
+				else if (helicopterTypeValue.equals("Kamov Ka27")){helicopterFile = "KamovKa27.csv";}
+				else if (helicopterTypeValue.equals("Apache AH1")){helicopterFile = "ApacheAH1.csv";}
+				
+				HelicopterType helicopterType = FileInput.helicopterTypeFromFile("./assets/Data/" + helicopterFile);	//initiating helicopter with data from a file
+				Helicopter helicopter = new Helicopter(helicopterType, altitude, direction, speed, 0, pitch) ;
 				
 				double[] coordinates = {xCoordinate, yCoordinate};
 				
@@ -247,16 +258,22 @@ public class MainMenu extends JFrame{
         constraintsOfLayout.insets = new Insets(0,4,0,0);
         constraintsOfLayout.gridx = 0;
         constraintsOfLayout.gridy = 6;
-        controlPanel.add(mapTypeLabel, constraintsOfLayout);
+        controlPanel.add(helicopterTypeLabel, constraintsOfLayout);
         constraintsOfLayout.gridx = 1;
         constraintsOfLayout.gridy = 6;
+        controlPanel.add(helicopterTypeList, constraintsOfLayout);
+        constraintsOfLayout.gridx = 0;
+        constraintsOfLayout.gridy = 7;
+        controlPanel.add(mapTypeLabel, constraintsOfLayout);
+        constraintsOfLayout.gridx = 1;
+        constraintsOfLayout.gridy = 7;
         controlPanel.add(mapTypeList,constraintsOfLayout);
         constraintsOfLayout.insets = new Insets(10,5,5,5);
         constraintsOfLayout.gridx = 0;
-        constraintsOfLayout.gridy = 7;
+        constraintsOfLayout.gridy = 8;
         controlPanel.add(generateButton, constraintsOfLayout);
         constraintsOfLayout.gridx = 1;
-        constraintsOfLayout.gridy = 7;
+        constraintsOfLayout.gridy = 8;
         controlPanel.add(resetButton, constraintsOfLayout);
         
         display.add(controlPanel);     

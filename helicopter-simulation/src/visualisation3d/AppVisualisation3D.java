@@ -65,7 +65,7 @@ public class AppVisualisation3D extends SimpleApplication {
 		guiNode.attachChild(new HUD().createHUD(assetManager, guiFont, settings, hudText));
 		rootNode.attachChild(guiNode);
 		
-		hudText.get(0).setText("Name:" + this.helicopter.getHelicopterType().getName());
+		hudText.get(0).setText("Name: " + this.helicopter.getHelicopterType().getName());
 		
 		// Attach Control HUD
 		guiNode.attachChild(new ControlHUD().createHUD(assetManager, guiFont, settings, hudTextControls));
