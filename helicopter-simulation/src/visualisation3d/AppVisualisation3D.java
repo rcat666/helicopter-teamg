@@ -63,6 +63,10 @@ public class AppVisualisation3D extends SimpleApplication {
 		guiNode.attachChild(new HUD().createHUD(assetManager, guiFont, settings, hudText));
 		rootNode.attachChild(guiNode);
 		
+		// Attach Control HUD
+		guiNode.attachChild(new ControlHUD().createHUD(assetManager, guiFont, settings, hudText));
+		rootNode.attachChild(guiNode);
+		
 		//calculating people affected and printing it out in the console
 		//MOST THINGS ARE CURRENTLY HARDCODED!!
 		double peopleAffected = Population.calculatePeopleAffected(statsArray.get(0).getPosition(), statsArray.get(0).getPosition(), this.coordinates[0], this.coordinates[1], 50*Conversions.metersToUnit, 50*Conversions.metersToUnit);
