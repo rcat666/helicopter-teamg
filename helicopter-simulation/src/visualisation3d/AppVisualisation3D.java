@@ -34,7 +34,9 @@ public class AppVisualisation3D extends SimpleApplication {
 	private Node area = new Node();
 	
 	private ArrayList<HeliStats> statsArray = new ArrayList<HeliStats>();
-	private ArrayList<BitmapText> hudText = new ArrayList<BitmapText>();	
+	private ArrayList<BitmapText> hudText = new ArrayList<BitmapText>();
+
+	private ArrayList<BitmapText> hudTextControls = new ArrayList<BitmapText>();
 	double[] coordinates;
 	String mapType;
 	
@@ -63,15 +65,17 @@ public class AppVisualisation3D extends SimpleApplication {
 		guiNode.attachChild(new HUD().createHUD(assetManager, guiFont, settings, hudText));
 		rootNode.attachChild(guiNode);
 		
+		hudText.get(0).setText("Name:" + this.helicopter.getHelicopterType().getName());
+		
 		// Attach Control HUD
-		guiNode.attachChild(new ControlHUD().createHUD(assetManager, guiFont, settings, hudText));
+		guiNode.attachChild(new ControlHUD().createHUD(assetManager, guiFont, settings, hudTextControls));
 		rootNode.attachChild(guiNode);
 		
 		//calculating people affected and printing it out in the console
 		//MOST THINGS ARE CURRENTLY HARDCODED!!
 		double peopleAffected = Population.calculatePeopleAffected(statsArray.get(0).getPosition(), statsArray.get(0).getPosition(), this.coordinates[0], this.coordinates[1], 50*Conversions.metersToUnit, 50*Conversions.metersToUnit);
-		hudText.get(4).setText("People at risk: " + String.format("%.2f",peopleAffected));
-		hudText.get(2).setText("Position: " + String.format("%.4f  %.4f", coordinates[0] , coordinates[1]));
+		hudText.get(5).setText("People at risk: " + String.format("%.2f",peopleAffected));
+		hudText.get(3).setText("Position: " + String.format("%.4f  %.4f", coordinates[0] , coordinates[1]));
 		// Creates a camera in specified location, looking at a specific point,
 		// enables it,
 		// set its moving speed and property to rotate by mouse drag
@@ -139,9 +143,9 @@ public class AppVisualisation3D extends SimpleApplication {
 		Position currentPosition = statsArray.get(arrayPos).getPosition();
 		
 		// updates the textboxes with speed and height
-		hudText.get(0).setText("Speed: " + String.format("%.2f", statsArray.get(arrayPos).getSpeed()) + " mph");
-		hudText.get(1).setText("Height: " + String.format("%.2f", Conversions.metersToUnit*(statsArray.get(arrayPos).getPosition().getY()))+ " m");
-		hudText.get(3).setText("Height: " + String.format("%.2f", statsArray.get(arrayPos).getTime())+ " s");
+		hudText.get(1).setText("Speed: " + String.format("%.2f", statsArray.get(arrayPos).getSpeed()) + " mph");
+		hudText.get(2).setText("Height: " + String.format("%.2f", Conversions.metersToUnit*(statsArray.get(arrayPos).getPosition().getY()))+ " m");
+		hudText.get(4).setText("Height: " + String.format("%.2f", statsArray.get(arrayPos).getTime())+ " s");
 		// sets the Helicopter models position with values from trajectory
 		// array
 		heli3Dmodel.pos.setX(currentPosition.getX());

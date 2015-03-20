@@ -41,6 +41,14 @@ public class HUD {
 	 * @param settings
 	 */
 	private void setTextLayer(AssetManager assetManager, BitmapFont guiFont, AppSettings settings, ArrayList<BitmapText> hudList){
+		BitmapText heliNameText = new BitmapText(guiFont, false);          
+		heliNameText.setSize(settings.getHeight()/45);      
+		heliNameText.setColor(ColorRGBA.White);                            
+		heliNameText.setText("Helicopter");             
+		heliNameText.setLocalTranslation(0, heliNameText.getLineHeight()*6, 0); // position
+		hud.attachChild(heliNameText);
+		
+		
 		BitmapText speedText = new BitmapText(guiFont, false);          
 		speedText.setSize(settings.getHeight()/45);      
 		speedText.setColor(ColorRGBA.White);                            
@@ -75,7 +83,8 @@ public class HUD {
 		popText.setText("");
 		popText.setLocalTranslation(0, popText.getLineHeight(), 0); // position
 		hud.attachChild(popText);
-		
+
+		hudList.add(heliNameText);
 		hudList.add(speedText);
 		hudList.add(altitudeText);
 		hudList.add(posText);
