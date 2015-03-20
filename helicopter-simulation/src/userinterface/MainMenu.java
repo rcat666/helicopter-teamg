@@ -3,8 +3,14 @@ package userinterface;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import model.Conversions;
 import model.Helicopter;
@@ -47,7 +53,7 @@ public class MainMenu extends JFrame{
     }
 	
 	//Method to initialise UI with its components.
-	private void initialiseUI(final Container display){
+	private void initialiseUI(final Container display) throws IOException{
 		
 		//Creating JPanels to contain the components.
 		final JPanel controlPanel = new JPanel();
@@ -114,6 +120,26 @@ public class MainMenu extends JFrame{
 		resetButton.setToolTipText("Resets all the fields to 0.");
 		mapTypeList.setToolTipText("<html>Choose a map type to run the simulation in.<br><b>Map</b> shows a map with roads and names.<br><b>Satellite</b> shows satellite images.<br<b>Hybrid</b> shows a combination of the map and satellite images.");
 		
+
+		//Image for compass
+		final BufferedImage picture = ImageIO.read(new File("assets/Textures/compass.png"));
+		final JLabel picLabel = new JLabel(new ImageIcon(picture));
+		
+		//Image for pitch
+		BufferedImage pitchPicture = ImageIO.read(new File("assets/Textures/Pitchicon.png"));
+		JLabel pitchPicLabel = new JLabel(new ImageIcon(pitchPicture));
+		
+		//JSpinner listener
+		angleSpinner.addChangeListener(new ChangeListener(){
+			
+			//Change image rotation
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				 double angle = (double) angleSpinner.getValue();
+				 picLabel.setIcon(new ImageIcon(rotateImage(picture,angle)));
+			}});
+		
+		
 		//Button listeners
 		generateButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -162,70 +188,83 @@ public class MainMenu extends JFrame{
 				angleSpinner.setValue((double)0);}
 		});
 		
+		
 		//Create grid bag layout for panel
 		controlPanel.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
+		GridBagConstraints constraintsOfLayout = new GridBagConstraints();
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 0;
-        c.insets = new Insets(0,4,0,0);
-        controlPanel.add(xCoordLabel, c);
-        c.gridx = 1;
-        c.gridy = 0;
-        controlPanel.add(yCoordLabel, c);
-        c.gridx = 0;
-        c.gridy = 1;
-        controlPanel.add(xCoordSpinner,c);
-        c.gridx = 1;
-        c.gridy = 1;
-        controlPanel.add(yCoordSpinner, c);
-        c.insets = new Insets(10,4,0,0);
-        c.gridx = 0;
-        c.gridy = 2;
-        controlPanel.add(speedLabel,c);
-        c.gridx = 1;
-        c.gridy = 2;
-        controlPanel.add(speedSpinner, c);
-        c.insets = new Insets(0,4,0,0);
-        c.gridx = 0;
-        c.gridy = 3;
-        controlPanel.add(altitudeLabel,c);
-        c.gridx = 1;
-        c.gridy = 3;
-        controlPanel.add(altitudeSpinner, c);
-        c.gridx = 0;
-        c.gridy = 4;
-        controlPanel.add(pitchLabel, c);
-        c.gridx = 1;
-        c.gridy = 4;
-        controlPanel.add(pitchSpinner, c);
-        c.gridx = 0;
-        c.gridy = 5;
-        controlPanel.add(angleLabel, c);
-        c.gridx = 1;
-        c.gridy = 5;
-        controlPanel.add(angleSpinner, c);
-        c.gridx = 0;
-        c.gridy = 6;
-        controlPanel.add(mapTypeLabel, c);
-        c.gridx = 1;
-        c.gridy = 6;
-        controlPanel.add(mapTypeList,c);
-        c.insets = new Insets(10,5,5,5);
-        c.gridx = 0;
-        c.gridy = 7;
-        controlPanel.add(generateButton, c);
-        c.gridx = 1;
-        c.gridy = 7;
-        controlPanel.add(resetButton, c);
+		constraintsOfLayout.fill = GridBagConstraints.HORIZONTAL;
+		constraintsOfLayout.gridx = 0;
+		constraintsOfLayout.gridy = 0;
+        constraintsOfLayout.insets = new Insets(0,4,0,0);
+        controlPanel.add(xCoordLabel, constraintsOfLayout);
+        constraintsOfLayout.gridx = 1;
+        constraintsOfLayout.gridy = 0;
+        controlPanel.add(yCoordLabel, constraintsOfLayout);
+        constraintsOfLayout.gridx = 0;
+        constraintsOfLayout.gridy = 1;
+        controlPanel.add(xCoordSpinner,constraintsOfLayout);
+        constraintsOfLayout.gridx = 1;
+        constraintsOfLayout.gridy = 1;
+        controlPanel.add(yCoordSpinner, constraintsOfLayout);
+        constraintsOfLayout.insets = new Insets(10,4,0,0);
+        constraintsOfLayout.gridx = 0;
+        constraintsOfLayout.gridy = 2;
+        controlPanel.add(speedLabel,constraintsOfLayout);
+        constraintsOfLayout.gridx = 1;
+        constraintsOfLayout.gridy = 2;
+        controlPanel.add(speedSpinner, constraintsOfLayout);
+        constraintsOfLayout.insets = new Insets(0,4,0,0);
+        constraintsOfLayout.gridx = 0;
+        constraintsOfLayout.gridy = 3;
+        controlPanel.add(altitudeLabel,constraintsOfLayout);
+        constraintsOfLayout.gridx = 1;
+        constraintsOfLayout.gridy = 3;
+        controlPanel.add(altitudeSpinner, constraintsOfLayout);
+        
+        constraintsOfLayout.gridx = 0;
+        constraintsOfLayout.gridy = 4;
+        controlPanel.add(pitchLabel, constraintsOfLayout);
+        constraintsOfLayout.gridx = 1;
+        constraintsOfLayout.gridy = 4;
+        constraintsOfLayout.insets = new Insets(0,-120,0,0);
+        controlPanel.add(pitchPicLabel ,constraintsOfLayout);
+        constraintsOfLayout.gridx = 2;
+        constraintsOfLayout.gridy = 4;
+        controlPanel.add(pitchSpinner, constraintsOfLayout);
+        
+        constraintsOfLayout.insets = new Insets(0,4,0,0);
+        constraintsOfLayout.gridx = 0;
+        constraintsOfLayout.gridy = 5;
+        controlPanel.add(angleLabel, constraintsOfLayout);
+        constraintsOfLayout.gridx = 1;
+        constraintsOfLayout.gridy = 5;
+        constraintsOfLayout.insets = new Insets(0,-120,0,0);
+        controlPanel.add(picLabel, constraintsOfLayout);
+        constraintsOfLayout.gridx = 2;
+        constraintsOfLayout.gridy = 5;
+        controlPanel.add(angleSpinner, constraintsOfLayout);
+        constraintsOfLayout.insets = new Insets(0,4,0,0);
+        constraintsOfLayout.gridx = 0;
+        constraintsOfLayout.gridy = 6;
+        controlPanel.add(mapTypeLabel, constraintsOfLayout);
+        constraintsOfLayout.gridx = 1;
+        constraintsOfLayout.gridy = 6;
+        controlPanel.add(mapTypeList,constraintsOfLayout);
+        constraintsOfLayout.insets = new Insets(10,5,5,5);
+        constraintsOfLayout.gridx = 0;
+        constraintsOfLayout.gridy = 7;
+        controlPanel.add(generateButton, constraintsOfLayout);
+        constraintsOfLayout.gridx = 1;
+        constraintsOfLayout.gridy = 7;
+        controlPanel.add(resetButton, constraintsOfLayout);
         
         display.add(controlPanel);     
 		display.setVisible(true);	
 	}
 	
 	//Method to create and display the UI
-	protected static void createAndShowGUI(){
+	protected static void createAndShowGUI() throws IOException{
 		//Create user interface window
 		MainMenu window = new MainMenu("TP3 Project");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -238,6 +277,30 @@ public class MainMenu extends JFrame{
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 	}
+	
+	//Method to rotate the compass image
+	public static BufferedImage rotateImage(BufferedImage imageToRotate, double rotationAngle){
+		
+		//Calculations of sine and cosine of desired angle.
+		double sineOfAngle = Math.abs(Math.sin(Math.toRadians(rotationAngle))); 
+		double cosineOfAngle = Math.abs(Math.cos(Math.toRadians(rotationAngle)));
+		int heightOfPicture = imageToRotate.getHeight();
+		int widthOfPicture = imageToRotate.getWidth();
+	    int widthOfNewPicture = (int)Math.floor((widthOfPicture*cosineOfAngle)+(heightOfPicture*sineOfAngle));
+	    int heightOfNewPicture = (int)Math.floor((heightOfPicture*cosineOfAngle)+(widthOfPicture*sineOfAngle));
+	    
+	    //Setting up graphics environment.
+	    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gd = ge.getDefaultScreenDevice();
+	    GraphicsConfiguration gc = gd.getDefaultConfiguration();
+	    
+	    //Creating the new image.
+	    BufferedImage rotatedImage = gc.createCompatibleImage(widthOfNewPicture, heightOfNewPicture, Transparency.TRANSLUCENT);
+	    Graphics2D drawImage = rotatedImage.createGraphics();
+	    drawImage.translate((widthOfNewPicture-widthOfPicture)/2, (heightOfNewPicture-heightOfPicture)/2);
+	    drawImage.rotate(Math.toRadians(rotationAngle), widthOfPicture/2, heightOfPicture/2);
+	    drawImage.drawRenderedImage(imageToRotate, null);
+	    drawImage.dispose();
+	    return rotatedImage;
+	}
 }
-
-
