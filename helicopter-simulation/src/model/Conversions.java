@@ -71,7 +71,7 @@ public class Conversions {
 	
 	public static double metersPerSquareSecondToUnitsPerSquareSeconds(double acceleration) {
 
-		return acceleration / 10;
+		return acceleration / metersToUnit;
 	}
 	
 	//converting angles from degree into radians
