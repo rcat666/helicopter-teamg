@@ -9,17 +9,17 @@ public class ThrowCalculations {
 	
 	
 	public static Position calculateNewPos(double time, Helicopter heli, double heliHeading, double heliPitch){
-		float x = -(float) (calculateX(Conversions.mphToUnitsPSecond(heli.getSpeed()), time, heliHeading) + heli.getPos().getX());  // need to set to its negaitve value as the positive x lies in the south direction and we want the opposite
+		float x = -(float) (calculateX(Conversions.mphToUnitsPSecond(heli.getSpeed()), time, heliHeading, heliPitch) + heli.getPos().getX());  // need to set to its negaitve value as the positive x lies in the south direction and we want the opposite
 		float y = (float) (calculateY(Conversions.mphToUnitsPSecond(heli.getSpeed()), time, heliPitch) + heli.getPos().getY());
-		float z = (float) (calculateZ(Conversions.mphToUnitsPSecond(heli.getSpeed()), time, heliHeading) + heli.getPos().getZ());
+		float z = (float) (calculateZ(Conversions.mphToUnitsPSecond(heli.getSpeed()), time, heliHeading, heliPitch) + heli.getPos().getZ());
 		Position newPosition = new Position(x,y,z);
 		return newPosition;
 	}
 
 
 	//Calculates the x component of Position at time t 
-	public static double calculateX(double v, double t, double angle){
-		double x=v*t*Math.cos(angle);
+	public static double calculateX(double v, double t, double headingAngle, double pitchAngle){
+		double x=v*t*Math.cos(headingAngle)*Math.cos(pitchAngle);
 		return x;
 	}
 
@@ -30,8 +30,8 @@ public class ThrowCalculations {
 	}
 
 	//Calculates the z component of Position at time t
-	public static double calculateZ(double v, double t, double angle){
-		double z=v*t*Math.sin(angle);
+	public static double calculateZ(double v, double t, double headingAngle,double pitchAngle){
+		double z=v*t*Math.sin(headingAngle)*Math.cos(pitchAngle);
 		return z;
 	}
 	
@@ -46,8 +46,8 @@ public class ThrowCalculations {
 		double t=-(2*v*Math.sin(anglePitch))/(2*(-g/2));
 		System.out.println("TIME OF CRASH  " + t);
 		
-		float x=(float) -calculateX(Conversions.mphToUnitsPSecond(v), t, angleHeading);
-		float z=(float) calculateZ(Conversions.mphToUnitsPSecond(v), t, angleHeading);
+		float x=(float) -calculateX(Conversions.mphToUnitsPSecond(v), t, angleHeading,anglePitch);
+		float z=(float) calculateZ(Conversions.mphToUnitsPSecond(v), t, angleHeading,anglePitch);
 		
 		return new Position(x,0,z);
 	}
