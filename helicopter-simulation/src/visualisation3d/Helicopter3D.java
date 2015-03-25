@@ -1,8 +1,12 @@
 package visualisation3d;
 
+import helicopter.Conversions;
+import helicopter.Helicopter;
+import helicopter.Position;
+
 import java.util.ArrayList;
 
-import repository.HeliStats;
+import repository.HelicopterStats;
 import repository.TrajectoryInformation;
 
 import com.jme3.asset.AssetManager;
@@ -13,9 +17,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import mathematicalModel.CrashTrajectory;
-import model.Conversions;
-import model.Helicopter;
-import model.Position;
 
 public class Helicopter3D {
 
@@ -62,7 +63,7 @@ public class Helicopter3D {
 		this.updatePosition();
 	}
 
-	public ArrayList<HeliStats> stats() {
+	public ArrayList<HelicopterStats> stats() {
 		TrajectoryInformation traject = new TrajectoryInformation(this.helicopter);
 		CrashTrajectory.calculateThrowTrajectory(traject);
 		return traject.getStats();

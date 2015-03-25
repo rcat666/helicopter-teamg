@@ -1,58 +1,44 @@
 package mathematicalModel;
+import helicopter.Conversions;
+import helicopter.Helicopter;
+import helicopter.Position;
 
 import java.util.ArrayList;
 
-import repository.HeliStats;
+import repository.HelicopterStats;
 import repository.TrajectoryInformation;
-import model.Conversions;
-import model.Helicopter;
-import model.Position;
 
+/**
+ * Creates an array consisting of points of the crash path.
+ */
 public class CrashTrajectory {
 
-
-	public static void calculateThrowTrajectory(TrajectoryInformation traj) {
+	public static void calculateThrowTrajectory(TrajectoryInformation trajectoryInformation) {
 		
-		Helicopter helicopter=traj.getHeli();
+		Helicopter helicopter = trajectoryInformation.getHeli();
 		
 		// converting degrees into radians
 		// the minus counteracts a correction introduced in the conversion method accounting to different representation of angles
-		double heliPitch = -Conversions.degreeToRadians(helicopter.getPitch());
-
-		double heliHeading = helicopter.getHeading();
-
-		
-		// changing degrees to radians
-		heliHeading = Conversions.degreeToRadians(heliHeading);
+		double helicopterPitch = -Conversions.degreeToRadians(helicopter.getPitch());
+		double helicopterHeading = Conversions.degreeToRadians(helicopter.getHeading());
 
 		// copy Arraylist with positions to manipulate it
-		ArrayList<HeliStats> trajectory = traj.getStats();
+		ArrayList<HelicopterStats> trajectory = trajectoryInformation.getStats();
 		int trajectoryLength = trajectory.size();
-		HeliStats lastStats = trajectory.get(trajectoryLength - 1);
+		HelicopterStats lastStats = trajectory.get(trajectoryLength - 1);
 		Position lastPos = lastStats.getPosition();
 		
 		int time = 1;
 
 		// calculates new positions and adds them to the copy of the arraylist
 		while (lastPos.getY() >= 0) {
-			trajectory.add(new HeliStats(ThrowCalculations.calculateNewPos(time/100.0, helicopter,
-					heliHeading, heliPitch), Conversions.unitsPSecondToMph(ThrowCalculations.calculateSpeed(time/100.0, heliPitch, (helicopter.getSpeed()))), time/100.0));
+			trajectory.add(new HelicopterStats(ThrowCalculations.calculateNewPos(time/100.0, helicopter,
+					helicopterHeading, helicopterPitch), Conversions.unitsPSecondToMph(ThrowCalculations.calculateSpeed(time/100.0, helicopterPitch, (helicopter.getSpeed()))), time/100.0));
 			trajectoryLength++;
 			lastStats = trajectory.get(trajectoryLength - 1);
 			lastPos = lastStats.getPosition();
 			time += 1;
-
 		}
-		
-		//System.out.println("CURRENT TIME  "+ time);
-		//removes the last position as this is in the ground
-		//trajectory.remove(trajectoryLength-1);
-		
-		//trajectory.add(ThrowCalculations.calculateFinalPos(Conversions.mphToUnitsPSecond(helicopter.getSpeed()),heliPitch,heliHeading));
-		
-		// sets Trajectories arraylist to the new calculated values
-		traj.setStats(trajectory);
-
+		trajectoryInformation.setStats(trajectory);
 	}
-
 }

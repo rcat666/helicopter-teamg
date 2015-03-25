@@ -1,12 +1,10 @@
 package mathematicalModel;
-
-import model.Conversions;
-import model.Helicopter;
-import model.Position;
+import helicopter.Conversions;
+import helicopter.Helicopter;
+import helicopter.Position;
 
 public class ThrowCalculations {
 	final static double g=9.81; //this is in meter per second^2
-	
 	
 	public static Position calculateNewPos(double time, Helicopter heli, double heliHeading, double heliPitch){
 		float x = -(float) (calculateX(Conversions.mphToUnitsPSecond(heli.getSpeed()), time, heliHeading, heliPitch) + heli.getPos().getX());  // need to set to its negaitve value as the positive x lies in the south direction and we want the opposite
@@ -16,7 +14,6 @@ public class ThrowCalculations {
 		return newPosition;
 	}
 
-
 	//Calculates the x component of Position at time t 
 	public static double calculateX(double v, double t, double headingAngle, double pitchAngle){
 		double x=v*t*Math.cos(headingAngle)*Math.cos(pitchAngle);
@@ -25,7 +22,7 @@ public class ThrowCalculations {
 
 	//Calculates the y (ALTITUDE) component of Position at time t
 	public static double calculateY(double v, double t, double angle){
-		double y=v*t*Math.sin(angle)-Conversions.metersPerSquareSecondToUnitsPerSquareSeconds(g)/2.0*t*t;
+		double y=v*t*Math.sin(angle)-Conversions.metersPerSquareSecondsToUnitsPerSquareSeconds(g)/2.0*t*t;
 		return y;
 	}
 
@@ -56,7 +53,7 @@ public class ThrowCalculations {
 	public static double calculateSpeed(double time, double heliPitch, double speed){
 
 		double speed0=Conversions.mphToUnitsPSecond(speed);
-		double gConverted = Conversions.metersPerSquareSecondToUnitsPerSquareSeconds(g);
+		double gConverted = Conversions.metersPerSquareSecondsToUnitsPerSquareSeconds(g);
 		double speedCalculator = Math.sqrt(speed0*speed0 + gConverted*gConverted *time*time -2*speed0*gConverted*time*Math.sin(heliPitch));
 
 		return speedCalculator;

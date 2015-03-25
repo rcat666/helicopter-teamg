@@ -1,28 +1,27 @@
 package userinterface;
-
+import helicopter.Helicopter;
+import helicopter.HelicopterModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import model.Conversions;
-import model.Helicopter;
-import model.HelicopterType;
-import model.Position;
 import repository.FileInput;
 import visualisation3d.AppVisualisation3D;
-
 import com.jme3.system.AppSettings;
 
-//User interface class
-public class MainMenu extends JFrame{
+/**
+ * Create the window for the user inputs.
+ * @author finlaymaciver
+ *
+ */
+
+public class UserInputWindow extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
 	private JLabel xCoordLabel;
@@ -49,7 +48,7 @@ public class MainMenu extends JFrame{
 	final int initial = 0;
 	
 	//User interface constructor
-	public MainMenu(String UITitle){
+	public UserInputWindow(String UITitle){
 		super(UITitle);
 		setResizable(false); //Window is not resizable       	
     }
@@ -173,7 +172,7 @@ public class MainMenu extends JFrame{
 				else if (helicopterTypeValue.equals("Kamov Ka27")){helicopterFile = "KamovKa27.csv";}
 				else if (helicopterTypeValue.equals("Apache AH1")){helicopterFile = "ApacheAH1.csv";}
 				
-				HelicopterType helicopterType = FileInput.helicopterTypeFromFile("./assets/Data/" + helicopterFile);	//initiating helicopter with data from a file
+				HelicopterModel helicopterType = FileInput.helicopterTypeFromFile("./assets/Data/" + helicopterFile);	//initiating helicopter with data from a file
 				Helicopter helicopter = new Helicopter(helicopterType, altitude, direction, speed, 0, pitch) ;
 				
 				double[] coordinates = {xCoordinate, yCoordinate};
@@ -283,7 +282,7 @@ public class MainMenu extends JFrame{
 	//Method to create and display the UI
 	protected static void createAndShowGUI() throws IOException{
 		//Create user interface window
-		MainMenu window = new MainMenu("TP3 Project");
+		UserInputWindow window = new UserInputWindow("TP3 Project");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//Set up button frame

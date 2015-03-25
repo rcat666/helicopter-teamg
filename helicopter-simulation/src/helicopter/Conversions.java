@@ -1,15 +1,13 @@
-package model;
+package helicopter;
+/**
+ * This class provides multiple static methods to convert between real life
+ * units and units used for the calculations.
+ * 
+ * @author mph
+ */
 
 public class Conversions {
-
-	/**
-	 * This class provides multiple static methods to convert between real life
-	 * units and units used for the calculations.
-	 * 
-	 * @author mph
-	 */
-
-
+	
 	//average earth radius in m
 	public final static double earthRadius = 6371000;
 	//half the distance of the map side length that we want to display
@@ -19,7 +17,7 @@ public class Conversions {
 	// the number of pixel it is projected on. (in this case 521 pixel) 
 	public final static double metersToUnit = (distance*2)/512;
 	
-	
+	//Method to convert miles per hour to units per second.
 	public static double mphToUnitsPSecond(double givenSpeed) {
 
 		double newSpeed = givenSpeed;
@@ -42,43 +40,38 @@ public class Conversions {
 		return newSpeed;
 	}
 	
+	//Method to convert units per second to miles per hour.
 	public static double unitsPSecondToMph(double givenSpeed){
 		double newSpeed= givenSpeed;
-		
 		newSpeed=newSpeed*60;
 		newSpeed=newSpeed*60;
-		
 		newSpeed = newSpeed*metersToUnit;
 		newSpeed = newSpeed / (double) (1000);
 		newSpeed = newSpeed/1.609344;
 		return newSpeed;
 	}
 
-	
+	//Method to convert meters to units.
 	public static double metersToUnits(double distanceMeters) {
 		return distanceMeters / metersToUnit;
 	}
 
 
+	// convert kilometer into meters
 	public static double kilometersToUnits(double distanceKilometer) {
-
-		// convert kilometer into meters
-		double distanceMeters = distanceKilometer / (double) (1000);
-
-		return Conversions.metersToUnits(distanceMeters);
+		return Conversions.metersToUnits(distanceKilometer / (double) (1000));
 	}
 
-	
-	public static double metersPerSquareSecondToUnitsPerSquareSeconds(double acceleration) {
-
+	//Convert meters per square seconds to units per square seconds.
+	public static double metersPerSquareSecondsToUnitsPerSquareSeconds(double acceleration) {
 		return acceleration / metersToUnit;
 	}
 	
-	//converting angles from degree into radians
-	//this includes converting angles bigger than 180° into the respective minus angle
+	//Converting angles from degree into radians.
+	//This includes converting angles bigger than 180 degrees into the respective minus angle.
 	public static double degreeToRadians(double angleToConvert){
 		double angle;
-		//check if angle is larger than 180° and change to its counterpart if it is
+		//check if angle is larger than 180 degrees and change to its counterpart if it is
 		//it also switches the negative value with the positive value to account for physical models angle going around counter-clockwise and reality clockwise
 		if(angleToConvert>180) angle=(angleToConvert-180);
 		else angle=-angleToConvert;
@@ -87,33 +80,33 @@ public class Conversions {
 	
 	//getting degrees of certain distance (in km) on the surface of that sphere
 	//degree calculation for latitude at same longitude
-	public static double getDegreeslat(double requiredDistance){
+	public static double getDegreesLatitude(double requiredDistance){
 		return (180*requiredDistance)/(Math.PI*earthRadius);		
 	}
 	
 	//degree calculation for longitude for different latitudes
-	public static double getDegreesLon(double requiredDistance, double lat){
-		return (180*requiredDistance)/(Math.PI*(Math.sin(Math.toRadians(90-lat))*earthRadius));		
+	public static double getDegreesLongitude(double requiredDistance, double latitude){
+		return (180*requiredDistance)/(Math.PI*(Math.sin(Math.toRadians(90-latitude))*earthRadius));		
 	}
 	
 	//calculate the two coords that define the boundaryBox
 	//after each new coord is calculated check that the are not over the boundaries
 	//this returns an array of double of the format lat, lon of top left corner and 
 	//lat long of bottom right corner
-	public static double[] getBoundaries(double lat, double lon, double requiredDistanceLat, double requiredDistanceLon){
-		double latTop = lat + getDegreeslat(requiredDistanceLat);
-		if (latTop>90) latTop = 90 - (latTop -90);
+	public static double[] getBoundaries(double latitude, double longitude, double requiredDistanceLatitude, double requiredDistanceLongitude){
+		double latitudeTop = latitude + getDegreesLatitude(requiredDistanceLatitude);
+		if (latitudeTop>90) latitudeTop = 90 - (latitudeTop -90);
 		
-		double latBottom = lat - getDegreeslat(requiredDistanceLat);
-		if (latBottom<-90) latBottom = -90 + (latBottom + 90);
+		double latitudeBottom = latitude - getDegreesLatitude(requiredDistanceLatitude);
+		if (latitudeBottom<-90) latitudeBottom = -90 + (latitudeBottom + 90);
 		
-		double lonWest = lon - getDegreesLon(requiredDistanceLon,latTop);
-		if (lonWest<-180) lonWest+=360;
+		double longitudeWest = longitude - getDegreesLongitude(requiredDistanceLongitude,latitudeTop);
+		if (longitudeWest<-180) longitudeWest+=360;
 		
-		double lonEast = lon + getDegreesLon(requiredDistanceLon,latBottom);
-		if (lonEast>180) lonEast-=360;
+		double longitudeEast = longitude + getDegreesLongitude(requiredDistanceLongitude,latitudeBottom);
+		if (longitudeEast>180) longitudeEast-=360;
 		
-		double[] boundary = new double[] {latTop,lonWest,latBottom,lonEast};
+		double[] boundary = new double[] {latitudeTop,longitudeWest,latitudeBottom,longitudeEast};
 		return boundary;
 	}
 	

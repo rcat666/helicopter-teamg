@@ -1,4 +1,4 @@
-package model;
+package helicopter;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -97,12 +97,12 @@ public class Population {
 	//calculating the people affected
 	public static double calculatePeopleAffected(Position startingPos, Position lastPos, double startingLat, double startingLon, double affectedX, double affectedY){
 		//calculating coords of crash site and making sure the are valid
-		double latDistance = Conversions.getDegreeslat((lastPos.getX()-startingPos.getX()));
+		double latDistance = Conversions.getDegreesLatitude((lastPos.getX()-startingPos.getX()));
 		double latitude= startingLat -latDistance;
 		if(latitude>90) latitude = 90 - (latitude-90);
 		if(latitude<-90) latitude = -90 + (latitude+90);
 		
-		double lonDistance = Conversions.getDegreesLon((lastPos.getY()-startingPos.getY()), latitude);
+		double lonDistance = Conversions.getDegreesLongitude((lastPos.getY()-startingPos.getY()), latitude);
 		double longitude = startingLon + lonDistance;
 		if(longitude>180) longitude-=360;
 		if(longitude<-180) longitude+=360;

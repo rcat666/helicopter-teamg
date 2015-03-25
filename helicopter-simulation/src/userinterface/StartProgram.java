@@ -1,5 +1,4 @@
 package userinterface;
-
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -8,24 +7,30 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-public class WelcomeScreen extends JFrame {
+/**
+ * Class that contains the main method to begin the software.
+ * @author finlaymaciver
+ *
+ */
+public class StartProgram extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	private JLabel mainblock;
 	private JButton startButton;
 	
-	public WelcomeScreen(String UITitle){
+	//Constructor
+	public StartProgram(String UITitle){
 		super(UITitle);
 		setResizable(false);
 	}
 	
+	//Creates the welcoming screen
 	private void initialiseUI(final Container display){
 		final JPanel mainPanel = new JPanel();
 		mainblock = new JLabel ("<html><div style=\"text-align: center; font-family: Avenir; font-weight: bold; font-size: 52pt;\">Team G</div><div div style=\"text-align: center; font-size: 18pt; font-family: Avenir;\"><br>This software application is developed under<br> the supervision of Professor Chris Johnson.<br>The program is based on the works of Arnaud Prouzeau.<br> <br><div style=\"text-align: center; font-size: 12pt;\">Please be aware that not all satellite images are available for every location.<br>The trajectory is not based on complex formulae.<br>Please note that the helicopter size has been scaled for visual effect.<br>For help, hover over each component to view a tooltip.");
@@ -33,6 +38,7 @@ public class WelcomeScreen extends JFrame {
 		startButton = new JButton("Start");
 		startButton.setFont(new Font("Avenir", Font.BOLD, 15));
 		
+		//Action listener for clicking the start button.
 		startButton.addActionListener(new ActionListener(){
 
 			@Override
@@ -41,7 +47,7 @@ public class WelcomeScreen extends JFrame {
 				dispose();
 				SwingUtilities.invokeLater(new Runnable(){
 		    		public void run() {try {
-						MainMenu.createAndShowGUI();
+						UserInputWindow.createAndShowGUI();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}}
@@ -63,19 +69,17 @@ public class WelcomeScreen extends JFrame {
 		display.add(mainPanel);
 		display.setVisible(true);
 	}
+	
 	private static void createAndShowGUI(){
-		WelcomeScreen window = new WelcomeScreen("Helicopter Simulation");
+		StartProgram window = new StartProgram("Helicopter Simulation");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 		window.initialiseUI(window.getContentPane());
-		
 		window.pack();
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 	}
+	
 	public static void main(String[] args){
-		SwingUtilities.invokeLater(new Runnable(){
-    		public void run() {createAndShowGUI();}
-    	});
+		SwingUtilities.invokeLater(new Runnable(){public void run() {createAndShowGUI();}});
 	}
 }

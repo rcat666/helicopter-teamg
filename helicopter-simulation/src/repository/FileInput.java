@@ -1,15 +1,15 @@
 package repository;
 
+import helicopter.Helicopter;
+import helicopter.HelicopterModel;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import model.Helicopter;
-import model.HelicopterType;
 
-/*
- * This file reads in a file and creates a helicopter instance from the data provided by the file.
- * 
+/**
+ * This class reads in a file and creates a helicopter instance from the data provided by the file.
  */
 
 public class FileInput {
@@ -96,11 +96,11 @@ public class FileInput {
 					break;
 			}
 		}
-		return new Helicopter(new HelicopterType(name, length, r_length, r_diam, height, weight), altitude, heading, speed, attitude, pitch);
+		return new Helicopter(new HelicopterModel(name, length, r_length, r_diam, height, weight), altitude, heading, speed, attitude, pitch);
 	}
 
 	//returns a Helicoptertype instance with data from a file 
-	public static HelicopterType helicopterTypeFromFile(String fileName){
+	public static HelicopterModel helicopterTypeFromFile(String fileName){
 		ArrayList<String> data= getDataFromFile(fileName);
 		//initiating all variables
 		String name=null;
@@ -134,7 +134,6 @@ public class FileInput {
 					break;
 					}
 		}
-		return new HelicopterType(name, length, r_length, r_diam, height, weight);
+		return new HelicopterModel(name, length, r_length, r_diam, height, weight);
 	}
-
 }

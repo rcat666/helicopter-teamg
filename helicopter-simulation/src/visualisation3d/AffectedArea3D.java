@@ -1,7 +1,7 @@
 package visualisation3d;
 
-import model.Conversions;
-import model.Position;
+import helicopter.Conversions;
+import helicopter.Position;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;

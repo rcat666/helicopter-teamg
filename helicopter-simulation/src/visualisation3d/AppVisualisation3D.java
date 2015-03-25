@@ -1,12 +1,13 @@
 package visualisation3d;
 
+import helicopter.Conversions;
+import helicopter.Helicopter;
+import helicopter.Population;
+import helicopter.Position;
+
 import java.util.ArrayList;
 
-import repository.HeliStats;
-import model.Conversions;
-import model.Helicopter;
-import model.Population;
-import model.Position;
+import repository.HelicopterStats;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.font.BitmapText;
@@ -33,7 +34,7 @@ public class AppVisualisation3D extends SimpleApplication {
 	private Node path = new Node();
 	private Node area = new Node();
 	
-	private ArrayList<HeliStats> statsArray = new ArrayList<HeliStats>();
+	private ArrayList<HelicopterStats> statsArray = new ArrayList<HelicopterStats>();
 	private ArrayList<BitmapText> hudText = new ArrayList<BitmapText>();
 
 	private ArrayList<BitmapText> hudTextControls = new ArrayList<BitmapText>();

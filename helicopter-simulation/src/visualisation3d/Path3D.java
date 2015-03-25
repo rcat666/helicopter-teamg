@@ -1,12 +1,12 @@
 package visualisation3d;
 
+import helicopter.Position;
+
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Line;
-
-import model.Position;
 
 public class Path3D {
 
