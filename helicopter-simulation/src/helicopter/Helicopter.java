@@ -54,8 +54,4 @@ public class Helicopter {
 	public double getPitch() {return pitch;}
 	public void setPitch(double pitch) {this.pitch = pitch;}
     
-	@Override
-	public String toString(){
-		return helicopterType.toString() + " altitude: " + altitude + " heading: " + heading + " speed: " + speed + " attitude: " + attitude + " pitch: " + pitch;
-	} 
 }

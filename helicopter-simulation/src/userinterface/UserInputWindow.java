@@ -24,6 +24,8 @@ import com.jme3.system.AppSettings;
 public class UserInputWindow extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
+	
+	//JLabels
 	private JLabel xCoordLabel;
 	private JLabel yCoordLabel;
 	private JLabel speedLabel;
@@ -33,6 +35,7 @@ public class UserInputWindow extends JFrame{
 	private JLabel mapTypeLabel;
 	private JLabel helicopterTypeLabel;
 	
+	//JSpinners
 	private JSpinner xCoordSpinner;
 	private JSpinner yCoordSpinner;
 	private JSpinner speedSpinner;
@@ -40,11 +43,11 @@ public class UserInputWindow extends JFrame{
 	private JSpinner pitchSpinner;
 	private JSpinner angleSpinner;
 	
+	//JButtons
 	private JButton generateButton;
 	private JButton resetButton;
 	
 	private static AppVisualisation3D app;
-	
 	final int initial = 0;
 	
 	//User interface constructor
@@ -59,7 +62,7 @@ public class UserInputWindow extends JFrame{
 		//Creating JPanels to contain the components.
 		final JPanel controlPanel = new JPanel();
 		
-		//Labels
+		//JLabels
 		xCoordLabel = new JLabel("Latitude:");
 		xCoordLabel.setFont(new Font("Avenir", Font.BOLD, 15));
 		yCoordLabel = new JLabel("Longitude:");
@@ -101,6 +104,7 @@ public class UserInputWindow extends JFrame{
 		angleSpinner = new JSpinner(angleLimits);
 		angleSpinner.setFont(new Font("Avenir", Font.BOLD, 15));
 		
+		//Sets tooltips to the spinners.
 		xCoordSpinner.setToolTipText("<html>Enter the <b><u>longitude</u></b> here, to 4 decimal places.<br><b>Positive</b> values are north.<br><b>Negative</b> values are south.");
 		yCoordSpinner.setToolTipText("<html>Enter the <u><b>latitude</b></u> here, to 4 decimal places.<br><b>Positive</b> values are east.<br><b>Negative</b> values are west.");
 		speedSpinner.setToolTipText("<html>Enter the <u><b>speed</b></u> of the helicopter here.<br>The speed is measured in miles per hour.<br>Must be greater than or equal to 0.");
@@ -112,21 +116,21 @@ public class UserInputWindow extends JFrame{
 		String[] mapTypes = {"Map","Satellite","Hybrid"};
 		final JComboBox mapTypeList = new JComboBox(mapTypes);
 		mapTypeList.setFont(new Font("Avenir", Font.BOLD, 15));
-		
+		mapTypeList.setToolTipText("<html>Choose a map type to run the simulation in.<br><b>Map</b> shows a map with roads and names.<br><b>Satellite</b> shows satellite images.<br<b>Hybrid</b> shows a combination of the map and satellite images.");
+
 		String[] helicopterTypes = {"Bell 204B", "Super Puma AS332L2", "Sikorsky S76C++", "Sikorsky S64C", "Kamov Ka27", "Apache AH1"};
 		final JComboBox helicopterTypeList = new JComboBox(helicopterTypes);
 		helicopterTypeList.setFont(new Font("Avenir", Font.BOLD, 15));
+		helicopterTypeList.setToolTipText("<html>Choose a helicopter type to run the simulation with.");
 		
-		//Buttons
+		//JButtons
 		generateButton = new JButton("Generate");
 		generateButton.setFont(new Font("Avenir", Font.BOLD, 15));
 		resetButton = new JButton("Reset");
 		resetButton.setFont(new Font("Avenir", Font.BOLD, 15));
 		generateButton.setToolTipText("Begin simulation");
 		resetButton.setToolTipText("Resets all the fields to 0.");
-		mapTypeList.setToolTipText("<html>Choose a map type to run the simulation in.<br><b>Map</b> shows a map with roads and names.<br><b>Satellite</b> shows satellite images.<br<b>Hybrid</b> shows a combination of the map and satellite images.");
-		helicopterTypeList.setToolTipText("<html>Choose a helicopter type to run the simulation with.");
-
+		
 		//Image for compass
 		final BufferedImage picture = ImageIO.read(new File("assets/Textures/compass.png"));
 		final JLabel picLabel = new JLabel(new ImageIcon(picture));
@@ -158,11 +162,13 @@ public class UserInputWindow extends JFrame{
 				String mapTypeValue = (String) mapTypeList.getSelectedItem();
 				String mapType = null;
 				
+				//Choose map type to retrieve.
 				if (mapTypeValue.equals("Map"))mapType="map";
 				else if (mapTypeValue.equals("Satellite"))mapType = "sat";
 				else if (mapTypeValue.equals("Hybrid"))mapType = "hyb";
 				else if (mapTypeValue.equals(null))mapType = "map";
 				
+				//Choose helicopter type to retrieve.
 				String helicopterFile = null;
 				String helicopterTypeValue = (String) helicopterTypeList.getSelectedItem();
 				if (helicopterTypeValue.equals("Bell 204B")){helicopterFile = "Bell204B.csv";}
@@ -171,12 +177,12 @@ public class UserInputWindow extends JFrame{
 				else if (helicopterTypeValue.equals("Sikorsky S64C")){helicopterFile = "SikorskyS64C.csv";}
 				else if (helicopterTypeValue.equals("Kamov Ka27")){helicopterFile = "KamovKa27.csv";}
 				else if (helicopterTypeValue.equals("Apache AH1")){helicopterFile = "ApacheAH1.csv";}
-				
 				HelicopterModel helicopterType = FileInput.helicopterTypeFromFile("./assets/Data/" + helicopterFile);	//initiating helicopter with data from a file
 				Helicopter helicopter = new Helicopter(helicopterType, altitude, direction, speed, 0, pitch) ;
 				
 				double[] coordinates = {xCoordinate, yCoordinate};
 				
+				//Start simulation
 				AppSettings setting = new AppSettings(true);
 				setting.setTitle("TP3 Project");
 				setting.setSettingsDialogImage("Textures/dialog.jpg");
@@ -231,7 +237,6 @@ public class UserInputWindow extends JFrame{
         constraintsOfLayout.gridx = 1;
         constraintsOfLayout.gridy = 3;
         controlPanel.add(altitudeSpinner, constraintsOfLayout);
-        
         constraintsOfLayout.gridx = 0;
         constraintsOfLayout.gridy = 4;
         controlPanel.add(pitchLabel, constraintsOfLayout);
@@ -242,7 +247,6 @@ public class UserInputWindow extends JFrame{
         constraintsOfLayout.gridx = 2;
         constraintsOfLayout.gridy = 4;
         controlPanel.add(pitchSpinner, constraintsOfLayout);
-        
         constraintsOfLayout.insets = new Insets(0,4,0,0);
         constraintsOfLayout.gridx = 0;
         constraintsOfLayout.gridy = 5;

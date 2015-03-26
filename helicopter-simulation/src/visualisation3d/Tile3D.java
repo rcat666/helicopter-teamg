@@ -1,7 +1,5 @@
 package visualisation3d;
-
 import java.io.IOException;
-
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.scene.Geometry;

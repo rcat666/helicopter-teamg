@@ -22,6 +22,7 @@ public class ControlHUD {
 	 * @param assetManager asset manager from the app
 	 * @param settings settings from the app to produce appropriate output
 	 */
+	
 	private void setBackgroundLayer(AssetManager assetManager, AppSettings settings){
 		Picture pic = new Picture("HUD Picture");
 		pic.setImage(assetManager, "Textures/HUD.png", true);
@@ -32,7 +33,7 @@ public class ControlHUD {
 	}
 	
 	/**
-	 * Creates the text line in the box, notices the posistion line!
+	 * Creates the text line in the box, notices the posistion line.
 	 * Each line of text needs to be at the height of the 0 - the heights of the line above them
 	 * hence the * factor.
 	 * 
@@ -84,8 +85,7 @@ public class ControlHUD {
 	}
 	
 	/**
-	 * Constructor, return a hud node that can be attached to the guiNode or the rootNode.
-	 * !!It is preferred to attach these elements to the guiNode for rendering properties!!
+	 * Constructor, return a hud node that can be attached to the guiNode or the rootNode
 	 * 
 	 * @param assetManager
 	 * @param guiFont
@@ -97,7 +97,4 @@ public class ControlHUD {
 		setTextLayer(assetManager, guiFont, settings, hudList);
 		return hud;
 	}
-	
-	
-
 }

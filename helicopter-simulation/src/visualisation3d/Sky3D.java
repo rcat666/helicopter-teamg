@@ -1,10 +1,12 @@
 package visualisation3d;
-
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Spatial;
 import com.jme3.texture.Texture;
 import com.jme3.util.SkyFactory;
 
+/**
+ * This class provides a background to the simulation to look like a sky.
+ */
 public class Sky3D {
 	
 	private Spatial createSky3D(AssetManager assetManager){
@@ -21,5 +23,4 @@ public class Sky3D {
 	public Spatial getSky(AssetManager assetManager){
 		return this.createSky3D(assetManager);
 	}
-		
 }

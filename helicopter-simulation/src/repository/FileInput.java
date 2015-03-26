@@ -9,12 +9,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * This class reads in a file and creates a helicopter instance from the data provided by the file.
+ * This class reads in a file and involves methods that create specific helicopter instances.
  */
 
 public class FileInput {
 	
-	//reads a file and saves each line as an element in ArrayList 
+	//Reads a file and saves each line as an element in ArrayList.
 	private static ArrayList<String> getDataFromFile(String fileName){
 		ArrayList<String> fileData=new ArrayList<String>();
 		BufferedReader reader=null;
@@ -41,7 +41,7 @@ public class FileInput {
 		return fileData;
 	}
 	
-	//returns a Helicopter instance with data from a file 
+	//Returns a Helicopter instance with data from a file. 
 	public static Helicopter helicopterFromFile(String fileName){
 		ArrayList<String> data= getDataFromFile(fileName);
 		//initiating all variables
@@ -57,7 +57,7 @@ public class FileInput {
 		double attitude = 0;
 		double pitch = 0;
 		
-		//assigning values to the right variables
+		//Assigning values to the right variables.
 		for(String information:data){
 			String[] thisLine= information.split(",");
 			switch (thisLine[0]){
@@ -99,7 +99,7 @@ public class FileInput {
 		return new Helicopter(new HelicopterModel(name, length, r_length, r_diam, height, weight), altitude, heading, speed, attitude, pitch);
 	}
 
-	//returns a Helicoptertype instance with data from a file 
+	//Returns a Helicoptertype instance with data from a file. 
 	public static HelicopterModel helicopterTypeFromFile(String fileName){
 		ArrayList<String> data= getDataFromFile(fileName);
 		//initiating all variables

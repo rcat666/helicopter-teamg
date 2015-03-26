@@ -1,8 +1,5 @@
 package visualisation3d;
-
-
 import java.util.ArrayList;
-
 import com.jme3.asset.AssetManager;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
@@ -106,7 +103,4 @@ public class HUD {
 		setTextLayer(assetManager, guiFont, settings, hudList);
 		return hud;
 	}
-	
-	
-
 }

@@ -49,8 +49,4 @@ public class HelicopterModel {
 	public double getWeight() {return weight;}
 	public void setWeight(double weight) {this.weight = weight;}
 	
-	@Override
-	public String toString(){
-		return "Helicopter Name: "+name+ " length: "+ length + " rotor length: " + r_length + " rotor diameter: " + r_diam + " heigth: " + height + " weight " + weight;
-	}
 }

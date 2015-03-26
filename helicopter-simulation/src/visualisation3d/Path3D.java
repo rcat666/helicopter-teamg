@@ -1,19 +1,15 @@
 package visualisation3d;
-
 import helicopter.Position;
-
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Line;
 
+/**
+ * This class draws the path of the helicopter within the simulation.
+ */
 public class Path3D {
-
-
-	private boolean isSamePosition(Position currentPosition, Position previousPosition){
-		return currentPosition.comparePosition(previousPosition);
-	}
 
 	private Geometry createPath3D(Position currentPosition, Position previousPosition, AssetManager assetManager){
 		Line pathSegment = null;
@@ -32,5 +28,9 @@ public class Path3D {
 	
 	public Geometry getPath3D(Position currentPosition, Position previousPosition, AssetManager assetManager){
 		return createPath3D(currentPosition, previousPosition, assetManager);
+	}
+	
+	private boolean isSamePosition(Position currentPosition, Position previousPosition){
+		return currentPosition.comparePosition(previousPosition);
 	}
 }

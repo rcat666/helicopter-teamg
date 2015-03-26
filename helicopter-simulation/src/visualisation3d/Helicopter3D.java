@@ -1,21 +1,16 @@
 package visualisation3d;
-
 import helicopter.Conversions;
 import helicopter.Helicopter;
 import helicopter.Position;
-
 import java.util.ArrayList;
-
 import repository.HelicopterStats;
 import repository.TrajectoryInformation;
-
 import com.jme3.asset.AssetManager;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-
 import mathematicalModel.CrashTrajectory;
 
 public class Helicopter3D {
@@ -103,5 +98,4 @@ public class Helicopter3D {
 		
 		return (scalingFactorLength+scalingFactorHeight)/2.0;				//getting the average scaling factor from the scaling factors for the height and length
 	}
-
 }

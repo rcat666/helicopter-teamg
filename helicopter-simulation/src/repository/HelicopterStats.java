@@ -1,6 +1,10 @@
 package repository;
 import helicopter.Position;
 
+/**
+ * This class contains helicopter statistics.
+ * This is used in TrajectoryInformation.
+ */
 public class HelicopterStats {
 	
 	private Position position;
